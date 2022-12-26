@@ -1,7 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:injectable/injectable.dart';
+import 'package:easy_localization/easy_localization.dart';
 
-void main() {
-  runApp(const MyApp());
+import 'driver_injection.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await setupInjection(dev);
+  await EasyLocalization.ensureInitialized();
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [Locale('en', 'US')],
+      fallbackLocale: const Locale('en', 'US'),
+      path: '../feature/assets/translations',
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
