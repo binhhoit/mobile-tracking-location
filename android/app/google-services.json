@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "309235316858",
+    "firebase_url": "https://sts-mobile-case-study-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "sts-mobile-case-study",
+    "storage_bucket": "sts-mobile-case-study.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309235316858:android:9bd717b330b403d2d3a3c3",
+        "android_client_info": {
+          "package_name": "com.example.mobileTrackingLocation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "309235316858-2cfm0fea4259psv1p6cjllr5jknlqdvl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0wD-Fjt2WtFEQ4L1UC1t-9QHzBSmH4SQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "309235316858-2cfm0fea4259psv1p6cjllr5jknlqdvl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "309235316858-7js5i3htq7nlp4p63umg2l02tna9trf5.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.mobileTrackingLocation"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
