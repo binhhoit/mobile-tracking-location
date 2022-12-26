@@ -1,0 +1,39 @@
+name: flutter_base
+
+versioning:
+  mode: independent
+
+packages:
+  - "data/*"
+  - .
+
+scripts:
+  postclean:
+    run: melos run clean:flutter --no-select
+    description: Runs "flutter clean" in all Flutter packages
+
+  pubget:
+    run: melos exec -c 1 -- "flutter pub get"
+    description: Runs "flutter pub get" in all Flutter packages
+
+  generate:all:
+    run: melos run pubget && melos run generate:dart && melos run generate:flutter
+    description: Build all generated files for Dart & Flutter packages in this project.
+
+  generate:dart:
+    run: melos exec -c 1 --depends-on="build_runner" --no-flutter -- "dart run build_runner build --delete-conflicting-outputs --enable-experiment=super-parameters,enhanced-enums"
+    description: Build all generated files for Dart packages in this project.
+
+  generate:flutter:
+    run: melos exec -c 1 --depends-on="build_runner" --flutter -- "flutter packages pub run build_runner build --delete-conflicting-outputs --enable-experiment=super-parameters,enhanced-enums"
+    description: Build all generated files for Flutter packages in this project.
+
+  clean:flutter:
+    run: melos exec -c 4 --fail-fast -- "flutter clean"
+    description: Run Flutter clean for a specific package in this project.
+    select-package:
+      flutter: true
+
+environment:
+  sdk: '>=2.17.0 <3.0.0'
+  flutter: '>=1.17.0 <3.0.0'
