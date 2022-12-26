@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user.freezed.dart';
+part 'user.g.dart';
 
 @freezed
 class User with _$User {
@@ -8,23 +9,15 @@ class User with _$User {
   const User._();
 
   factory User({
+    @JsonKey(name: 'login')
     String? login,
+    @JsonKey(name: 'id')
     int? id,
-    String? nodeId,
+    @JsonKey(name: 'avatar_url')
     String? avatarUrl,
-    String? gravatarId,
-    String? url,
-    String? htmlUrl,
-    String? followersUrl,
-    String? followingUrl,
-    String? gistsUrl,
-    String? starredUrl,
-    String? subscriptionsUrl,
-    String? organizationsUrl,
-    String? reposUrl,
-    String? eventsUrl,
-    String? receivedEventsUrl,
-    String? type,
-    bool? siteAdmin,
+    @JsonKey(name: 'url')
+    String? url
   }) = _User;
+
+  factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }

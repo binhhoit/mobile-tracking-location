@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import 'package:domain/model/observer.dart';
-import 'package:domain/model/result/result.dart';
+import 'package:data/model/observer.dart';
 import 'package:logger/logger.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -11,7 +10,7 @@ abstract class SingleUseCase {
 
 abstract class UseCaseResult<T> extends SingleUseCase {
   @override
-  Future<Result<T>> execute();
+  Future<T> execute();
 }
 
 abstract class ReactiveUseCase<T, Params> {

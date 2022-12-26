@@ -1,11 +1,13 @@
-name: flutter_base
+name: mobile_tracking_location
 
 versioning:
   mode: independent
 
 packages:
   - "data/*"
-  - .
+  - "driver_app/*"
+  - "user_app/*"
+  - "feature/*"
 
 scripts:
   postclean:
@@ -17,7 +19,7 @@ scripts:
     description: Runs "flutter pub get" in all Flutter packages
 
   generate:all:
-    run: melos run pubget && melos run generate:dart && melos run generate:flutter
+    run: melos run pubget && melos run generate:dart && melos run generate:flutter && melos run gen_localize
     description: Build all generated files for Dart & Flutter packages in this project.
 
   generate:dart:
@@ -28,11 +30,15 @@ scripts:
     run: melos exec -c 1 --depends-on="build_runner" --flutter -- "flutter packages pub run build_runner build --delete-conflicting-outputs --enable-experiment=super-parameters,enhanced-enums"
     description: Build all generated files for Flutter packages in this project.
 
+  gen_localize:
+    run: melos exec -c 1 --flutter -- "flutter pub run easy_localization:generate -S assets/translations -O lib/translations -o locale_keys.g.dart -f keys"
+    description: gen localize keys
+    select-package:
+      scope: '*feature*'
+
   clean:flutter:
     run: melos exec -c 4 --fail-fast -- "flutter clean"
     description: Run Flutter clean for a specific package in this project.
-    select-package:
-      flutter: true
 
 environment:
   sdk: '>=2.17.0 <3.0.0'

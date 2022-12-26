@@ -14,27 +14,22 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
 
+User _$UserFromJson(Map<String, dynamic> json) {
+  return _User.fromJson(json);
+}
+
 /// @nodoc
 mixin _$User {
+  @JsonKey(name: 'login')
   String? get login => throw _privateConstructorUsedError;
+  @JsonKey(name: 'id')
   int? get id => throw _privateConstructorUsedError;
-  String? get nodeId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'avatar_url')
   String? get avatarUrl => throw _privateConstructorUsedError;
-  String? get gravatarId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'url')
   String? get url => throw _privateConstructorUsedError;
-  String? get htmlUrl => throw _privateConstructorUsedError;
-  String? get followersUrl => throw _privateConstructorUsedError;
-  String? get followingUrl => throw _privateConstructorUsedError;
-  String? get gistsUrl => throw _privateConstructorUsedError;
-  String? get starredUrl => throw _privateConstructorUsedError;
-  String? get subscriptionsUrl => throw _privateConstructorUsedError;
-  String? get organizationsUrl => throw _privateConstructorUsedError;
-  String? get reposUrl => throw _privateConstructorUsedError;
-  String? get eventsUrl => throw _privateConstructorUsedError;
-  String? get receivedEventsUrl => throw _privateConstructorUsedError;
-  String? get type => throw _privateConstructorUsedError;
-  bool? get siteAdmin => throw _privateConstructorUsedError;
 
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
   $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
 }
@@ -44,24 +39,10 @@ abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res>;
   $Res call(
-      {String? login,
-      int? id,
-      String? nodeId,
-      String? avatarUrl,
-      String? gravatarId,
-      String? url,
-      String? htmlUrl,
-      String? followersUrl,
-      String? followingUrl,
-      String? gistsUrl,
-      String? starredUrl,
-      String? subscriptionsUrl,
-      String? organizationsUrl,
-      String? reposUrl,
-      String? eventsUrl,
-      String? receivedEventsUrl,
-      String? type,
-      bool? siteAdmin});
+      {@JsonKey(name: 'login') String? login,
+      @JsonKey(name: 'id') int? id,
+      @JsonKey(name: 'avatar_url') String? avatarUrl,
+      @JsonKey(name: 'url') String? url});
 }
 
 /// @nodoc
@@ -76,22 +57,8 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
   $Res call({
     Object? login = freezed,
     Object? id = freezed,
-    Object? nodeId = freezed,
     Object? avatarUrl = freezed,
-    Object? gravatarId = freezed,
     Object? url = freezed,
-    Object? htmlUrl = freezed,
-    Object? followersUrl = freezed,
-    Object? followingUrl = freezed,
-    Object? gistsUrl = freezed,
-    Object? starredUrl = freezed,
-    Object? subscriptionsUrl = freezed,
-    Object? organizationsUrl = freezed,
-    Object? reposUrl = freezed,
-    Object? eventsUrl = freezed,
-    Object? receivedEventsUrl = freezed,
-    Object? type = freezed,
-    Object? siteAdmin = freezed,
   }) {
     return _then(_value.copyWith(
       login: login == freezed
@@ -102,70 +69,14 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      nodeId: nodeId == freezed
-          ? _value.nodeId
-          : nodeId // ignore: cast_nullable_to_non_nullable
-              as String?,
       avatarUrl: avatarUrl == freezed
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      gravatarId: gravatarId == freezed
-          ? _value.gravatarId
-          : gravatarId // ignore: cast_nullable_to_non_nullable
               as String?,
       url: url == freezed
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String?,
-      htmlUrl: htmlUrl == freezed
-          ? _value.htmlUrl
-          : htmlUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      followersUrl: followersUrl == freezed
-          ? _value.followersUrl
-          : followersUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      followingUrl: followingUrl == freezed
-          ? _value.followingUrl
-          : followingUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      gistsUrl: gistsUrl == freezed
-          ? _value.gistsUrl
-          : gistsUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      starredUrl: starredUrl == freezed
-          ? _value.starredUrl
-          : starredUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      subscriptionsUrl: subscriptionsUrl == freezed
-          ? _value.subscriptionsUrl
-          : subscriptionsUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      organizationsUrl: organizationsUrl == freezed
-          ? _value.organizationsUrl
-          : organizationsUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      reposUrl: reposUrl == freezed
-          ? _value.reposUrl
-          : reposUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      eventsUrl: eventsUrl == freezed
-          ? _value.eventsUrl
-          : eventsUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      receivedEventsUrl: receivedEventsUrl == freezed
-          ? _value.receivedEventsUrl
-          : receivedEventsUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      type: type == freezed
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String?,
-      siteAdmin: siteAdmin == freezed
-          ? _value.siteAdmin
-          : siteAdmin // ignore: cast_nullable_to_non_nullable
-              as bool?,
     ));
   }
 }
@@ -176,24 +87,10 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       __$$_UserCopyWithImpl<$Res>;
   @override
   $Res call(
-      {String? login,
-      int? id,
-      String? nodeId,
-      String? avatarUrl,
-      String? gravatarId,
-      String? url,
-      String? htmlUrl,
-      String? followersUrl,
-      String? followingUrl,
-      String? gistsUrl,
-      String? starredUrl,
-      String? subscriptionsUrl,
-      String? organizationsUrl,
-      String? reposUrl,
-      String? eventsUrl,
-      String? receivedEventsUrl,
-      String? type,
-      bool? siteAdmin});
+      {@JsonKey(name: 'login') String? login,
+      @JsonKey(name: 'id') int? id,
+      @JsonKey(name: 'avatar_url') String? avatarUrl,
+      @JsonKey(name: 'url') String? url});
 }
 
 /// @nodoc
@@ -209,22 +106,8 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
   $Res call({
     Object? login = freezed,
     Object? id = freezed,
-    Object? nodeId = freezed,
     Object? avatarUrl = freezed,
-    Object? gravatarId = freezed,
     Object? url = freezed,
-    Object? htmlUrl = freezed,
-    Object? followersUrl = freezed,
-    Object? followingUrl = freezed,
-    Object? gistsUrl = freezed,
-    Object? starredUrl = freezed,
-    Object? subscriptionsUrl = freezed,
-    Object? organizationsUrl = freezed,
-    Object? reposUrl = freezed,
-    Object? eventsUrl = freezed,
-    Object? receivedEventsUrl = freezed,
-    Object? type = freezed,
-    Object? siteAdmin = freezed,
   }) {
     return _then(_$_User(
       login: login == freezed
@@ -235,138 +118,46 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      nodeId: nodeId == freezed
-          ? _value.nodeId
-          : nodeId // ignore: cast_nullable_to_non_nullable
-              as String?,
       avatarUrl: avatarUrl == freezed
           ? _value.avatarUrl
           : avatarUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      gravatarId: gravatarId == freezed
-          ? _value.gravatarId
-          : gravatarId // ignore: cast_nullable_to_non_nullable
               as String?,
       url: url == freezed
           ? _value.url
           : url // ignore: cast_nullable_to_non_nullable
               as String?,
-      htmlUrl: htmlUrl == freezed
-          ? _value.htmlUrl
-          : htmlUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      followersUrl: followersUrl == freezed
-          ? _value.followersUrl
-          : followersUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      followingUrl: followingUrl == freezed
-          ? _value.followingUrl
-          : followingUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      gistsUrl: gistsUrl == freezed
-          ? _value.gistsUrl
-          : gistsUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      starredUrl: starredUrl == freezed
-          ? _value.starredUrl
-          : starredUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      subscriptionsUrl: subscriptionsUrl == freezed
-          ? _value.subscriptionsUrl
-          : subscriptionsUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      organizationsUrl: organizationsUrl == freezed
-          ? _value.organizationsUrl
-          : organizationsUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      reposUrl: reposUrl == freezed
-          ? _value.reposUrl
-          : reposUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      eventsUrl: eventsUrl == freezed
-          ? _value.eventsUrl
-          : eventsUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      receivedEventsUrl: receivedEventsUrl == freezed
-          ? _value.receivedEventsUrl
-          : receivedEventsUrl // ignore: cast_nullable_to_non_nullable
-              as String?,
-      type: type == freezed
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String?,
-      siteAdmin: siteAdmin == freezed
-          ? _value.siteAdmin
-          : siteAdmin // ignore: cast_nullable_to_non_nullable
-              as bool?,
     ));
   }
 }
 
 /// @nodoc
-
+@JsonSerializable()
 class _$_User extends _User {
   _$_User(
-      {this.login,
-      this.id,
-      this.nodeId,
-      this.avatarUrl,
-      this.gravatarId,
-      this.url,
-      this.htmlUrl,
-      this.followersUrl,
-      this.followingUrl,
-      this.gistsUrl,
-      this.starredUrl,
-      this.subscriptionsUrl,
-      this.organizationsUrl,
-      this.reposUrl,
-      this.eventsUrl,
-      this.receivedEventsUrl,
-      this.type,
-      this.siteAdmin})
+      {@JsonKey(name: 'login') this.login,
+      @JsonKey(name: 'id') this.id,
+      @JsonKey(name: 'avatar_url') this.avatarUrl,
+      @JsonKey(name: 'url') this.url})
       : super._();
 
+  factory _$_User.fromJson(Map<String, dynamic> json) => _$$_UserFromJson(json);
+
   @override
+  @JsonKey(name: 'login')
   final String? login;
   @override
+  @JsonKey(name: 'id')
   final int? id;
   @override
-  final String? nodeId;
-  @override
+  @JsonKey(name: 'avatar_url')
   final String? avatarUrl;
   @override
-  final String? gravatarId;
-  @override
+  @JsonKey(name: 'url')
   final String? url;
-  @override
-  final String? htmlUrl;
-  @override
-  final String? followersUrl;
-  @override
-  final String? followingUrl;
-  @override
-  final String? gistsUrl;
-  @override
-  final String? starredUrl;
-  @override
-  final String? subscriptionsUrl;
-  @override
-  final String? organizationsUrl;
-  @override
-  final String? reposUrl;
-  @override
-  final String? eventsUrl;
-  @override
-  final String? receivedEventsUrl;
-  @override
-  final String? type;
-  @override
-  final bool? siteAdmin;
 
   @override
   String toString() {
-    return 'User(login: $login, id: $id, nodeId: $nodeId, avatarUrl: $avatarUrl, gravatarId: $gravatarId, url: $url, htmlUrl: $htmlUrl, followersUrl: $followersUrl, followingUrl: $followingUrl, gistsUrl: $gistsUrl, starredUrl: $starredUrl, subscriptionsUrl: $subscriptionsUrl, organizationsUrl: $organizationsUrl, reposUrl: $reposUrl, eventsUrl: $eventsUrl, receivedEventsUrl: $receivedEventsUrl, type: $type, siteAdmin: $siteAdmin)';
+    return 'User(login: $login, id: $id, avatarUrl: $avatarUrl, url: $url)';
   }
 
   @override
@@ -376,117 +167,52 @@ class _$_User extends _User {
             other is _$_User &&
             const DeepCollectionEquality().equals(other.login, login) &&
             const DeepCollectionEquality().equals(other.id, id) &&
-            const DeepCollectionEquality().equals(other.nodeId, nodeId) &&
             const DeepCollectionEquality().equals(other.avatarUrl, avatarUrl) &&
-            const DeepCollectionEquality()
-                .equals(other.gravatarId, gravatarId) &&
-            const DeepCollectionEquality().equals(other.url, url) &&
-            const DeepCollectionEquality().equals(other.htmlUrl, htmlUrl) &&
-            const DeepCollectionEquality()
-                .equals(other.followersUrl, followersUrl) &&
-            const DeepCollectionEquality()
-                .equals(other.followingUrl, followingUrl) &&
-            const DeepCollectionEquality().equals(other.gistsUrl, gistsUrl) &&
-            const DeepCollectionEquality()
-                .equals(other.starredUrl, starredUrl) &&
-            const DeepCollectionEquality()
-                .equals(other.subscriptionsUrl, subscriptionsUrl) &&
-            const DeepCollectionEquality()
-                .equals(other.organizationsUrl, organizationsUrl) &&
-            const DeepCollectionEquality().equals(other.reposUrl, reposUrl) &&
-            const DeepCollectionEquality().equals(other.eventsUrl, eventsUrl) &&
-            const DeepCollectionEquality()
-                .equals(other.receivedEventsUrl, receivedEventsUrl) &&
-            const DeepCollectionEquality().equals(other.type, type) &&
-            const DeepCollectionEquality().equals(other.siteAdmin, siteAdmin));
+            const DeepCollectionEquality().equals(other.url, url));
   }
 
+  @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(
       runtimeType,
       const DeepCollectionEquality().hash(login),
       const DeepCollectionEquality().hash(id),
-      const DeepCollectionEquality().hash(nodeId),
       const DeepCollectionEquality().hash(avatarUrl),
-      const DeepCollectionEquality().hash(gravatarId),
-      const DeepCollectionEquality().hash(url),
-      const DeepCollectionEquality().hash(htmlUrl),
-      const DeepCollectionEquality().hash(followersUrl),
-      const DeepCollectionEquality().hash(followingUrl),
-      const DeepCollectionEquality().hash(gistsUrl),
-      const DeepCollectionEquality().hash(starredUrl),
-      const DeepCollectionEquality().hash(subscriptionsUrl),
-      const DeepCollectionEquality().hash(organizationsUrl),
-      const DeepCollectionEquality().hash(reposUrl),
-      const DeepCollectionEquality().hash(eventsUrl),
-      const DeepCollectionEquality().hash(receivedEventsUrl),
-      const DeepCollectionEquality().hash(type),
-      const DeepCollectionEquality().hash(siteAdmin));
+      const DeepCollectionEquality().hash(url));
 
   @JsonKey(ignore: true)
   @override
   _$$_UserCopyWith<_$_User> get copyWith =>
       __$$_UserCopyWithImpl<_$_User>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_UserToJson(this);
+  }
 }
 
 abstract class _User extends User {
   factory _User(
-      {final String? login,
-      final int? id,
-      final String? nodeId,
-      final String? avatarUrl,
-      final String? gravatarId,
-      final String? url,
-      final String? htmlUrl,
-      final String? followersUrl,
-      final String? followingUrl,
-      final String? gistsUrl,
-      final String? starredUrl,
-      final String? subscriptionsUrl,
-      final String? organizationsUrl,
-      final String? reposUrl,
-      final String? eventsUrl,
-      final String? receivedEventsUrl,
-      final String? type,
-      final bool? siteAdmin}) = _$_User;
+      {@JsonKey(name: 'login') final String? login,
+      @JsonKey(name: 'id') final int? id,
+      @JsonKey(name: 'avatar_url') final String? avatarUrl,
+      @JsonKey(name: 'url') final String? url}) = _$_User;
   _User._() : super._();
 
+  factory _User.fromJson(Map<String, dynamic> json) = _$_User.fromJson;
+
   @override
+  @JsonKey(name: 'login')
   String? get login;
   @override
+  @JsonKey(name: 'id')
   int? get id;
   @override
-  String? get nodeId;
-  @override
+  @JsonKey(name: 'avatar_url')
   String? get avatarUrl;
   @override
-  String? get gravatarId;
-  @override
+  @JsonKey(name: 'url')
   String? get url;
-  @override
-  String? get htmlUrl;
-  @override
-  String? get followersUrl;
-  @override
-  String? get followingUrl;
-  @override
-  String? get gistsUrl;
-  @override
-  String? get starredUrl;
-  @override
-  String? get subscriptionsUrl;
-  @override
-  String? get organizationsUrl;
-  @override
-  String? get reposUrl;
-  @override
-  String? get eventsUrl;
-  @override
-  String? get receivedEventsUrl;
-  @override
-  String? get type;
-  @override
-  bool? get siteAdmin;
   @override
   @JsonKey(ignore: true)
   _$$_UserCopyWith<_$_User> get copyWith => throw _privateConstructorUsedError;

@@ -1,27 +1,25 @@
 import 'dart:convert';
 
-import 'package:data/helpers/handle_networt_mixin.dart';
+import 'package:data/helpers/handle_network_mixin.dart';
 import 'package:data/helpers/list_helper.dart';
-import 'package:data/model/user/user_dto.dart';
-import 'package:data/model/user/user_mapper.dart';
-import 'package:domain/model/result/result.dart';
-import 'package:domain/model/user/user.dart';
-import 'package:domain/repositories/user_repository.dart';
+import 'package:data/model/failures/failure.dart';
+import 'package:data/model/user/user.dart';
+import 'package:data/repositories/user_repository.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:injectable/injectable.dart';
 
 @Injectable(as: UserRepository)
 class UserRepositoryImpl extends UserRepository with HandleNetworkMixin {
-  final UserMapper userMapper;
-
-  UserRepositoryImpl(this.userMapper);
 
   @override
-  Future<Result<List<User>>> getFollower(int page, int pageSize) async {
-
-    return makeRequest<List<User>>(
-        call: Future.value(List<UserDTO>.from(
-            json.decode(_users).map((x) => UserDTO.fromJson(x)))),
-        toModel: (data) => mapToList(data, userMapper.fromModel));
+  Future<Either<List<User>, Failure>> getFollower(int page, int pageSize) async {
+    try {
+      var data = await Future.value(List<User>.from(
+          json.decode(_users).map((x) => User.fromJson(x))));
+      return Either.left(data);
+    } on Exception catch (exception) {
+      return Either.right(handleError(exception));
+    }
   }
 
   static const _users = '''

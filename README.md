@@ -1,16 +1,31 @@
-# mobile_tracking_location
+# Mobile tracking location
 
-A new Flutter project.
+[Description]
 
-## Getting Started
+# Technical architecture components
+- Clean Architecture
+- State management: flutter_bloc
+- Dependency injection: injectable, get_it
+- Network: retrofit, dio
 
-This project is a starting point for a Flutter application.
+## Run
+```
+    //Init Melos
+    dart pub global activate melos
+    melos bootstrap
+    
+    //Generate File
+    melos run generate:all 
 
-A few resources to get you started if this is your first Flutter project:
+    flutter run -t user_app/main.dart
+    flutter run -t driver_app/main.dart
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+### Overview
+<img src="./architecture-proposal.png" style="display: block; margin-left: auto; margin-right: auto; width: 75%;"/>
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### refer
+1. Clean Architecture: https://github.com/ResoCoder/flutter-tdd-clean-architecture-course
+2. Injectable: https://pub.dev/packages/injectable
+3. Retrofit: https://pub.dev/packages/retrofit
+4. Freezed: https://pub.dev/packages/freezed
