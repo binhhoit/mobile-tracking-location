@@ -1,4 +1,6 @@
+import 'package:driver_app/bloc/login_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:easy_localization/easy_localization.dart';
 
@@ -127,3 +129,16 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+
+class SampleWidget extends StatelessWidget {
+  const SampleWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider<LoginBloc>(
+      create: (context) => injector.get(),
+      child: Container(),
+    );
+  }
+}
+

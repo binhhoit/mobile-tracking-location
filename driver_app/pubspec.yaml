@@ -34,8 +34,14 @@ dependencies:
 
   feature:
     path: ../feature
+  data:
+    path: ../data
 
   injectable: ^1.5.3
+
+  #bloc
+  flutter_bloc: ^8.1.1
+  bloc: ^8.1.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
