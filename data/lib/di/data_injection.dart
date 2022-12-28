@@ -14,5 +14,5 @@ final dataInjector = GetIt.asNewInstance();
 Future setupDataInjection(Environment env) async {
   await Hive.initFlutter();
   await PreferenceManager.init();
-  dataInjector.registerDependencies();
+  dataInjector.registerDependencies(environment: env.name);
 }

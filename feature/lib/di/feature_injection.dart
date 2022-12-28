@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import 'feature_injection.config.dart';
 
-final featureInjector = GetIt.asNewInstance();
+final featureInjector = GetIt.instance;
 
 @InjectableInit(
   initializerName: 'registerDependencies',
@@ -12,5 +12,5 @@ final featureInjector = GetIt.asNewInstance();
 )
 Future setupFeatureInjection(Environment env) async {
   await setupDataInjection(env);
-  featureInjector.registerDependencies();
+  featureInjector.registerDependencies(environment: env.name);
 }
