@@ -13,13 +13,7 @@ class UserRepositoryImpl extends UserRepository with HandleNetworkMixin {
       print(userCredential);
       return userCredential.user != null;
     } on firebase.FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        throw Exception('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        throw Exception('The password provided is too weak.');
-      } else {
-        rethrow;
-      }
+      rethrow;
     } catch (e) {
       rethrow;
     }
