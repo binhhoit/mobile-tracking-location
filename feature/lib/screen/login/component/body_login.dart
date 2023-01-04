@@ -1,7 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:feature/screen/register/register_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../translations/locale_keys.g.dart';
 import '../bloc/login_bloc.dart';
 import '../bloc/login_state.dart';
 
@@ -45,10 +47,10 @@ class _BodyLogin extends State<BodyLogin> {
                   padding: const EdgeInsets.all(15),
                   child: TextField(
                     controller: userName,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'User Name',
-                      hintText: 'Enter Your Name',
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: LocaleKeys.user_name.tr(),
+                      hintText: LocaleKeys.enter_your_name.tr(),
                     ),
                   ),
                 ),
@@ -57,10 +59,10 @@ class _BodyLogin extends State<BodyLogin> {
                   child: TextField(
                     controller: password,
                     obscureText: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Password',
-                      hintText: 'Enter Password',
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: LocaleKeys.password.tr(),
+                      hintText: LocaleKeys.enter_pass.tr(),
                     ),
                   ),
                 ),
@@ -83,13 +85,13 @@ class _BodyLogin extends State<BodyLogin> {
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        SizedBox(
+                      children: [
+                        const SizedBox(
                           width: 16,
                         ),
                         Text(
-                          "Sign In",
-                          style: TextStyle(
+                          LocaleKeys.sign_in.tr(),
+                          style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
@@ -110,9 +112,9 @@ class _BodyLogin extends State<BodyLogin> {
                             builder: (BuildContext context) => RegisterScreen()),
                       );
                     },
-                    child: const Text(
-                      "Do you have account?",
-                      style: TextStyle(
+                    child: Text(
+                      LocaleKeys.do_you_have_account.tr(),
+                      style: const TextStyle(
                         color: Colors.blue,
                         decoration: TextDecoration.underline,
                       ),
