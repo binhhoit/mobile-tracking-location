@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import 'feature_injection.config.dart';
 
-final featureInjector = GetIt.asNewInstance();
+final featureInjector = GetIt.instance;
 
 @InjectableInit(
   initializerName: 'registerDependencies',
