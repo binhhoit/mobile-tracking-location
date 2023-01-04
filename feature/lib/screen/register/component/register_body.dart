@@ -1,6 +1,8 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../translations/locale_keys.g.dart';
 import '../bloc/register_bloc.dart';
 import '../bloc/register_state.dart';
 
@@ -46,10 +48,10 @@ class _BodyRegister extends State<BodyRegister> {
                   padding: const EdgeInsets.all(15),
                   child: TextField(
                     controller: userName,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'User Name',
-                      hintText: 'Enter Your Name',
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: LocaleKeys.user_name.tr(),
+                      hintText: LocaleKeys.enter_your_name.tr(),
                     ),
                   ),
                 ),
@@ -58,10 +60,10 @@ class _BodyRegister extends State<BodyRegister> {
                   child: TextField(
                     controller: password,
                     obscureText: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Password',
-                      hintText: 'Enter Password',
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: LocaleKeys.password.tr(),
+                      hintText: LocaleKeys.enter_pass.tr(),
                     ),
                   ),
                 ),
@@ -70,10 +72,10 @@ class _BodyRegister extends State<BodyRegister> {
                   child: TextField(
                     controller: passwordConfirm,
                     obscureText: true,
-                    decoration: const InputDecoration(
-                      border: OutlineInputBorder(),
-                      labelText: 'Password Confirm',
-                      hintText: 'Enter Password Confirm',
+                    decoration: InputDecoration(
+                      border: const OutlineInputBorder(),
+                      labelText: LocaleKeys.password_confirm.tr(),
+                      hintText: LocaleKeys.enter_password_confirm.tr(),
                     ),
                   ),
                 ),
@@ -99,13 +101,13 @@ class _BodyRegister extends State<BodyRegister> {
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: const [
-                        SizedBox(
+                      children: [
+                        const SizedBox(
                           width: 16,
                         ),
                         Text(
-                          "Sign Up",
-                          style: TextStyle(
+                          LocaleKeys.sign_up.tr(),
+                          style: const TextStyle(
                             color: Colors.black,
                             fontWeight: FontWeight.w500,
                             fontSize: 15,
@@ -120,9 +122,9 @@ class _BodyRegister extends State<BodyRegister> {
                 ),
                 TextButton(
                     onPressed: () {},
-                    child: const Text(
-                      "Sign In",
-                      style: TextStyle(
+                    child: Text(
+                      LocaleKeys.sign_in.tr(),
+                      style: const TextStyle(
                         color: Colors.blue,
                         decoration: TextDecoration.underline,
                       ),
