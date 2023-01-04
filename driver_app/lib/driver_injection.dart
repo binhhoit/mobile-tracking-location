@@ -4,7 +4,7 @@ import 'package:injectable/injectable.dart';
 
 import 'driver_injection.config.dart';
 
-final injector = GetIt.asNewInstance();
+final injector = GetIt.instance;
 
 @InjectableInit(
   initializerName: 'registerDependencies',
