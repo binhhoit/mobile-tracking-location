@@ -14,6 +14,9 @@
     dart pub global activate melos
     melos bootstrap
     
+    export PATH="$PATH":"$HOME/.pub-cache/bin"
+
+    
     //Generate File
     melos run generate:all 
 

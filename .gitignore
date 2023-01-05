@@ -314,3 +314,4 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/flutter,androidstudio,swift,macos
+/feature/lib/screen/login/bloc/login_state.freezed.dart
