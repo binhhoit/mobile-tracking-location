@@ -5,7 +5,7 @@ import 'package:injectable/injectable.dart';
 
 import 'data_injection.config.dart';
 
-final dataInjector = GetIt.asNewInstance();
+final dataInjector = GetIt.instance;
 
 @InjectableInit(
   initializerName: 'registerDependencies',

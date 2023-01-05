@@ -4,13 +4,13 @@ import 'package:injectable/injectable.dart';
 
 import 'driver_injection.config.dart';
 
-final injector = GetIt.asNewInstance();
+final injector = GetIt.instance;
 
 @InjectableInit(
   initializerName: 'registerDependencies',
   asExtension: true,
 )
 Future setupInjection(Environment env) async {
-  setupFeatureInjection(env);
+  await setupFeatureInjection(env);
   injector.registerDependencies(environment: env.name);
 }

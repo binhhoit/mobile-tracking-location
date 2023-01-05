@@ -7,6 +7,7 @@ import 'package:injectable/injectable.dart';
 class PreferenceManager {
   static const String _accessTokenKey = 'ACCESS_TOKEN';
   static const String _refreshTokenKey = 'REFRESH_TOKEN';
+  static const String _backgroundTrackingLocation = 'BACKGROUND_TRACKING_LOCATION';
 
   static const String _boxName = 'app_preference';
 
@@ -36,6 +37,13 @@ class PreferenceManager {
     _box.put(_accessTokenKey, value);
   }
 
+  bool get backgroundTrackingLocation {
+    return _box.get(_backgroundTrackingLocation, defaultValue: true) as bool;
+  }
+
+  set backgroundTrackingLocation(bool value) {
+    _box.put(_backgroundTrackingLocation, value);
+  }
 
   bool get isLoggedIn => accessToken.isNotEmpty;
 
