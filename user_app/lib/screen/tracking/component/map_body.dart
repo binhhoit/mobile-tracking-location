@@ -31,8 +31,6 @@ class _MapBody extends State<MapBody> {
 
   Future<void> _onMapCreated(GoogleMapController controller) async {
     _mapController = controller;
-    _mapController.setMapStyle(
-        '[{"featureType": "all",{"featureType": "road.arterial","elementType": "geometry","stylers": [{ "color": "#CCFFFF" }]},{"featureType": "landscape","elementType": "labels","stylers": [{ "visibility": "off" }]}]');
   }
 
   void _loadMarkers(LatLng latLng) async {
