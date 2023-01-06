@@ -1,3 +1,4 @@
+import 'package:driver_app/ui/screens/home/home_screen.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:feature/screen/login/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginScreen(),
+      home: const HomeScreen(),
     );
   }
 }

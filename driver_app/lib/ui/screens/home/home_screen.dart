@@ -15,7 +15,6 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late StreamSubscription _locationSubscription;
   late StreamSubscription _trackingStatusSubscription;
-  TrackingLocationService service = injector.get();
   Position? _locationData;
   bool _isTracking = false;
 
@@ -23,13 +22,13 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _locationSubscription =
-        service.listenLocationChanged((location) {
+        TrackingLocationService.listenLocationChanged((location) {
       setState(() {
         _locationData = location;
       });
     });
     _trackingStatusSubscription =
-        service.listenTrackingStatus((isTracking) {
+        TrackingLocationService.listenTrackingStatus((isTracking) {
       setState(() {
         _isTracking = isTracking;
       });
@@ -63,14 +62,14 @@ class _HomeScreenState extends State<HomeScreen> {
     if (value == LocationPermission.always ||
         value == LocationPermission.whileInUse) {
       if(await Geolocator.isLocationServiceEnabled()) {
-        service.startService();
+        TrackingLocationService.startService();
         setState(() {});
       }
     }
   }
 
   void stopTracking() {
-    service.stopService();
+    TrackingLocationService.stopService();
     setState(() {});
   }
 

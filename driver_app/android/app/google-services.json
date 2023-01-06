@@ -15,6 +15,74 @@
       },
       "oauth_client": [
         {
+          "client_id": "309235316858-d4k72h3tu9jijr8u0cvkgmdaamkjp9he.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sts.driver_app",
+            "certificate_hash": "8e5cd346180684d1dfe243b42baa519be60cd5c3"
+          }
+        },
+        {
+          "client_id": "309235316858-vng0u35osgcd05r7bki2fquetsh2087k.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sts.driver_app",
+            "certificate_hash": "ded8b992edf62b696dc94f5604b4615a55e5d02b"
+          }
+        },
+        {
+          "client_id": "309235316858-2cfm0fea4259psv1p6cjllr5jknlqdvl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0wD-Fjt2WtFEQ4L1UC1t-9QHzBSmH4SQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "309235316858-2cfm0fea4259psv1p6cjllr5jknlqdvl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "309235316858-1ares33i6tqjei3dsot0r7k8dsi7q733.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.sts.driverApp"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:309235316858:android:2d8c06fa90349fe2d3a3c3",
+        "android_client_info": {
+          "package_name": "com.sts.user_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "309235316858-0gpqodq1l21puprcqjvfqgks3b4hvkpa.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sts.user_app",
+            "certificate_hash": "8e5cd346180684d1dfe243b42baa519be60cd5c3"
+          }
+        },
+        {
+          "client_id": "309235316858-le2oi442imbmlhlbb2u4kvjvg76icfl3.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.sts.user_app",
+            "certificate_hash": "ded8b992edf62b696dc94f5604b4615a55e5d02b"
+          }
+        },
+        {
           "client_id": "309235316858-2cfm0fea4259psv1p6cjllr5jknlqdvl.apps.googleusercontent.com",
           "client_type": 3
         }

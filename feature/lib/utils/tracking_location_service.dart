@@ -9,34 +9,46 @@ import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:flutter_background_service_android/flutter_background_service_android.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:injectable/injectable.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-@singleton
 class TrackingLocationService {
   static const trackingLocationChannelId = 'tracking_location_id';
   static const trackingLocationChannelName = 'tracking location';
   static const foregroundId = 888;
 
-  final _service = FlutterBackgroundService();
-  final BehaviorSubject<Position?> _locationStream = BehaviorSubject();
-  final BehaviorSubject<bool> _isTracking = BehaviorSubject();
+  static final _service = FlutterBackgroundService();
+  static final BehaviorSubject<Position?> _locationStream = BehaviorSubject();
+  static final BehaviorSubject<bool> _isTracking = BehaviorSubject();
 
-  TrackingLocationService() {
-    initializeService();
-  }
+  // TrackingLocationService() {
+  //   initializeService();
+  // }
 
-  StreamSubscription<Position?> listenLocationChanged(
+  static StreamSubscription<Position?> listenLocationChanged(
       void Function(Position?) onListen) {
     return _locationStream.listen(onListen);
   }
 
-  void startService() {
+  static void startService() {
     _service.startService();
     _isTracking.value = true;
     _service.on('updateCallback').listen((event) async {
       var position = Position.fromMap(jsonDecode((event as Map)['position']));
       _locationStream.value = position;
+
+      FirebaseFirestore.instance.collection('driver_location').doc('wOSYPFjGT2ZvAgm8ciDyM6eOntJ3').set(
+          {
+            'location': GeoPoint(position.latitude, position.longitude)
+          }
+      ).then((_) {
+        print("THEN AAAAAAAAAAAAAAAAAAAAAA");
+      }).whenComplete(() {
+        print("COMPLETE AAAAAAAAAAAAAAAAAAAAAA");
+      }).catchError((error) {
+        print("AAAAAAAAAAAAAAAAAAAAAA $error");
+      });
     });
 
     _service.on('errorCallback').listen((event) async {
@@ -44,7 +56,7 @@ class TrackingLocationService {
     });
   }
 
-  Future stopService() async {
+  static Future stopService() async {
     _isTracking.value = false;
     var isRunning = await _service.isRunning();
     if (isRunning) {
@@ -52,12 +64,12 @@ class TrackingLocationService {
     }
   }
 
-  StreamSubscription listenTrackingStatus(Function(bool) onEvent) {
+  static StreamSubscription listenTrackingStatus(Function(bool) onEvent) {
     return _isTracking.listen(onEvent);
   }
 
   /// Init background service
-  Future<void> initializeService() async {
+  static Future<void> initializeService() async {
     var isRunning = await _service.isRunning();
     _isTracking.value = isRunning;
 
@@ -66,13 +78,13 @@ class TrackingLocationService {
         trackingLocationChannelId, // id
         trackingLocationChannelName, // name
         description:
-            'This channel is used for tracking location.', // description
+        'This channel is used for tracking location.', // description
         importance: Importance.max, // importance must be at low or higher level
         enableVibration: false,
         playSound: false);
 
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-        FlutterLocalNotificationsPlugin();
+    FlutterLocalNotificationsPlugin();
 
     if (Platform.isIOS) {
       await flutterLocalNotificationsPlugin.initialize(
@@ -91,7 +103,7 @@ class TrackingLocationService {
 
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
+        AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
     await _service.configure(
@@ -134,6 +146,7 @@ Future<bool> onIosBackground(ServiceInstance service) async {
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
   // Only available for flutter 3.0.0 and later
+  // await Firebase.initializeApp();
   DartPluginRegistrant.ensureInitialized();
 
   // For flutter prior to version 3.0.0
@@ -141,7 +154,7 @@ void onStart(ServiceInstance service) async {
 
   /// OPTIONAL when use custom notification
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  FlutterLocalNotificationsPlugin();
 
   if (service is AndroidServiceInstance) {
     service.on('setAsForeground').listen((event) {
@@ -161,8 +174,8 @@ void onStart(ServiceInstance service) async {
 
   if (defaultTargetPlatform == TargetPlatform.android) {
     locationSettings = AndroidSettings(
-        //(Optional) Set foreground notification config to keep the app alive
-        //when going to the background
+      //(Optional) Set foreground notification config to keep the app alive
+      //when going to the background
         accuracy: LocationAccuracy.bestForNavigation,
         intervalDuration: const Duration(milliseconds: 2000));
   } else if (defaultTargetPlatform == TargetPlatform.iOS) {
@@ -186,8 +199,12 @@ void onStart(ServiceInstance service) async {
     service.invoke('errorCallback');
     service.stopSelf();
   }).listen(
-    (position) async {
-      // _locationStream.value = currentLocation;
+        (position) async {
+      // FirebaseFirestore.instance.collection('driver_location').doc('wOSYPFjGT2ZvAgm8ciDyM6eOntJ3').update(
+      //     {
+      //       'location': GeoPoint(position.latitude, position.longitude)
+      //     }
+      // ).catchError((error) => print("Failed to update user: $error"));
       service.invoke('updateCallback', {'position': jsonEncode(position)});
 
       if (service is AndroidServiceInstance) {
@@ -197,7 +214,8 @@ void onStart(ServiceInstance service) async {
           flutterLocalNotificationsPlugin.show(
             TrackingLocationService.foregroundId,
             'Tracking Location',
-            'Lat: ${position.latitude.toString()} - Long: ${position.longitude.toString()}',
+            'Lat: ${position.latitude.toString()} - Long: ${position.longitude
+                .toString()}',
             const NotificationDetails(
               android: AndroidNotificationDetails(
                   'my_foreground', 'MY FOREGROUND SERVICE',
