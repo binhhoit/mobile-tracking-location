@@ -23,7 +23,6 @@ class _BodyLogin extends State<BodyLogin> {
   void initState() {
     // TODO: implement initState
     _bloc = context.read<LoginBloc>();
-    _bloc?.test();
     super.initState();
   }
 

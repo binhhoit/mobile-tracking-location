@@ -25,7 +25,7 @@ class _MapBody extends State<MapBody> {
   void initState() {
     // TODO: implement initState
     _bloc = context.read<TrackingBloc>();
-    _bloc?.trackingLocationDriver();
+    _bloc?.trackingLocationDriver("wOSYPFjGT2ZvAgm8ciDyM6eOntJ3");
     super.initState();
   }
 
