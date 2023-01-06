@@ -21,10 +21,10 @@ class TrackingScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.black,
         centerTitle: true,
-        leading: IconButton(
+        /*leading: IconButton(
           onPressed: () => Navigator.pop(context),
           icon: const Icon(Icons.arrow_back),
-        ),
+        ),*/
       ),
       body: BlocProvider<TrackingBloc>(
         create: (context) => injector.get(),
