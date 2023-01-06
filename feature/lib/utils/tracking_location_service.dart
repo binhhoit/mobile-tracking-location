@@ -38,17 +38,6 @@ class TrackingLocationService {
       var position = Position.fromMap(jsonDecode((event as Map)['position']));
       _locationStream.value = position;
 
-      FirebaseFirestore.instance.collection('driver_location').doc('wOSYPFjGT2ZvAgm8ciDyM6eOntJ3').set(
-          {
-            'location': GeoPoint(position.latitude, position.longitude)
-          }
-      ).then((_) {
-        print("THEN AAAAAAAAAAAAAAAAAAAAAA");
-      }).whenComplete(() {
-        print("COMPLETE AAAAAAAAAAAAAAAAAAAAAA");
-      }).catchError((error) {
-        print("AAAAAAAAAAAAAAAAAAAAAA $error");
-      });
     });
 
     _service.on('errorCallback').listen((event) async {
@@ -146,7 +135,7 @@ Future<bool> onIosBackground(ServiceInstance service) async {
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
   // Only available for flutter 3.0.0 and later
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
   DartPluginRegistrant.ensureInitialized();
 
   // For flutter prior to version 3.0.0
@@ -200,11 +189,11 @@ void onStart(ServiceInstance service) async {
     service.stopSelf();
   }).listen(
         (position) async {
-      // FirebaseFirestore.instance.collection('driver_location').doc('wOSYPFjGT2ZvAgm8ciDyM6eOntJ3').update(
-      //     {
-      //       'location': GeoPoint(position.latitude, position.longitude)
-      //     }
-      // ).catchError((error) => print("Failed to update user: $error"));
+      FirebaseFirestore.instance.collection('driver_location').doc('wOSYPFjGT2ZvAgm8ciDyM6eOntJ3').update(
+          {
+            'location': GeoPoint(position.latitude, position.longitude)
+          }
+      ).catchError((error) => print("Failed to update user: $error"));
       service.invoke('updateCallback', {'position': jsonEncode(position)});
 
       if (service is AndroidServiceInstance) {

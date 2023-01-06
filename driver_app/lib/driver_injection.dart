@@ -1,3 +1,4 @@
+import 'package:driver_app/firebase_options.dart';
 import 'package:feature/di/feature_injection.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
@@ -15,6 +16,5 @@ final injector = GetIt.instance;
 Future setupInjection(Environment env) async {
   await setupFeatureInjection(env);
   await TrackingLocationService.initializeService();
-  await Firebase.initializeApp();
   injector.registerDependencies(environment: env.name);
 }

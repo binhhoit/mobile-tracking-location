@@ -64,6 +64,8 @@ class _HomeScreenState extends State<HomeScreen> {
       if(await Geolocator.isLocationServiceEnabled()) {
         TrackingLocationService.startService();
         setState(() {});
+      } else {
+        Geolocator.openAppSettings();
       }
     }
   }
