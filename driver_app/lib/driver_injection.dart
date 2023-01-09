@@ -15,6 +15,6 @@ final injector = GetIt.instance;
 )
 Future setupInjection(Environment env) async {
   await setupFeatureInjection(env);
-  await TrackingLocationService.initializeService(DefaultFirebaseOptions.currentPlatform);
+  await TrackingLocationService.initializeService();
   injector.registerDependencies(environment: env.name);
 }

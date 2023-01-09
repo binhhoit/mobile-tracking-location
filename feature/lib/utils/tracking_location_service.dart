@@ -13,8 +13,6 @@ import 'package:rxdart/rxdart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-FirebaseOptions? _firebaseOptions;
-
 class TrackingLocationService {
   static const trackingLocationChannelId = 'tracking_location_id';
   static const trackingLocationChannelName = 'tracking location';
@@ -39,7 +37,6 @@ class TrackingLocationService {
     _service.on('updateCallback').listen((event) async {
       var position = Position.fromMap(jsonDecode((event as Map)['position']));
       _locationStream.value = position;
-
     });
 
     _service.on('errorCallback').listen((event) async {
@@ -60,10 +57,7 @@ class TrackingLocationService {
   }
 
   /// Init background service
-  static Future<void> initializeService(FirebaseOptions options) async {
-
-    _firebaseOptions = options;
-
+  static Future<void> initializeService() async {
     var isRunning = await _service.isRunning();
     _isTracking.value = isRunning;
 
@@ -72,13 +66,13 @@ class TrackingLocationService {
         trackingLocationChannelId, // id
         trackingLocationChannelName, // name
         description:
-        'This channel is used for tracking location.', // description
+            'This channel is used for tracking location.', // description
         importance: Importance.max, // importance must be at low or higher level
         enableVibration: false,
         playSound: false);
 
     final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-    FlutterLocalNotificationsPlugin();
+        FlutterLocalNotificationsPlugin();
 
     if (Platform.isIOS) {
       await flutterLocalNotificationsPlugin.initialize(
@@ -97,7 +91,7 @@ class TrackingLocationService {
 
     await flutterLocalNotificationsPlugin
         .resolvePlatformSpecificImplementation<
-        AndroidFlutterLocalNotificationsPlugin>()
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(channel);
 
     await _service.configure(
@@ -141,23 +135,14 @@ Future<bool> onIosBackground(ServiceInstance service) async {
 void onStart(ServiceInstance service) async {
   // Only available for flutter 3.0.0 and later
   DartPluginRegistrant.ensureInitialized();
-  Firebase.initializeApp(options: const FirebaseOptions(
-    apiKey: 'AIzaSyATOXQWAzUSlI5WlAyJ0ayr-vn38ajModk',
-    appId: '1:309235316858:ios:a3f2de7775f07ae2d3a3c3',
-    messagingSenderId: '309235316858',
-    projectId: 'sts-mobile-case-study',
-    databaseURL: 'https://sts-mobile-case-study-default-rtdb.asia-southeast1.firebasedatabase.app',
-    storageBucket: 'sts-mobile-case-study.appspot.com',
-    iosClientId: '309235316858-b5pe5tu4pujc7643tg3ok511fssu6b2j.apps.googleusercontent.com',
-    iosBundleId: 'com.sts.userApp',
-  ));
+  Firebase.initializeApp();
 
   // For flutter prior to version 3.0.0
   // We have to register the plugin manually
 
   /// OPTIONAL when use custom notification
   final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-  FlutterLocalNotificationsPlugin();
+      FlutterLocalNotificationsPlugin();
 
   if (service is AndroidServiceInstance) {
     service.on('setAsForeground').listen((event) {
@@ -177,8 +162,8 @@ void onStart(ServiceInstance service) async {
 
   if (defaultTargetPlatform == TargetPlatform.android) {
     locationSettings = AndroidSettings(
-      //(Optional) Set foreground notification config to keep the app alive
-      //when going to the background
+        //(Optional) Set foreground notification config to keep the app alive
+        //when going to the background
         accuracy: LocationAccuracy.bestForNavigation,
         intervalDuration: const Duration(milliseconds: 2000));
   } else if (defaultTargetPlatform == TargetPlatform.iOS) {
@@ -202,12 +187,25 @@ void onStart(ServiceInstance service) async {
     service.invoke('errorCallback');
     service.stopSelf();
   }).listen(
-        (position) async {
-      FirebaseFirestore.instance.collection('driver_location').doc('wOSYPFjGT2ZvAgm8ciDyM6eOntJ3').update(
-          {
-            'locations': FieldValue.arrayUnion([GeoPoint(position.latitude, position.longitude)])
-          }
-      ).catchError((error) => print("Failed to update user: $error"));
+    (position) async {
+      //update last location
+      FirebaseFirestore.instance
+          .collection('driver_location')
+          .doc('wOSYPFjGT2ZvAgm8ciDyM6eOntJ3')
+          .update({
+        'location': GeoPoint(position.latitude, position.longitude)
+      }).catchError((error) => print("Failed to last location: $error"));
+
+      //update trips
+      FirebaseFirestore.instance
+          .collection('driver_location')
+          .doc('wOSYPFjGT2ZvAgm8ciDyM6eOntJ3')
+          .update({
+        'locations': FieldValue.arrayUnion(
+            [GeoPoint(position.latitude, position.longitude)])
+      }).catchError((error) => print("Failed to update trips: $error"));
+
+      //call back to UI
       service.invoke('updateCallback', {'position': jsonEncode(position)});
 
       if (service is AndroidServiceInstance) {
@@ -217,8 +215,7 @@ void onStart(ServiceInstance service) async {
           flutterLocalNotificationsPlugin.show(
             TrackingLocationService.foregroundId,
             'Tracking Location',
-            'Lat: ${position.latitude.toString()} - Long: ${position.longitude
-                .toString()}',
+            'Lat: ${position.latitude.toString()} - Long: ${position.longitude.toString()}',
             const NotificationDetails(
               android: AndroidNotificationDetails(
                   'my_foreground', 'MY FOREGROUND SERVICE',
