@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../bloc/tracking_bloc.dart';
@@ -20,12 +21,14 @@ class _MapBody extends State<MapBody> {
     0,
     0,
   );
+  List<LatLng> polylineCoordinates = [];
 
   @override
   void initState() {
     // TODO: implement initState
     _bloc = context.read<TrackingBloc>();
     _bloc?.trackingLocationDriver("wOSYPFjGT2ZvAgm8ciDyM6eOntJ3");
+    getPolyPoints(const LatLng(10.7990167, 106.6500732), const LatLng(10.7992554, 106.6495249));
     super.initState();
   }
 
@@ -59,6 +62,23 @@ class _MapBody extends State<MapBody> {
     });
   }
 
+  void getPolyPoints(LatLng destination, LatLng position) async {
+    PolylinePoints polylinePoints = PolylinePoints();
+    PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
+      "AIzaSyDJTshFsX65daY7b1cAle30uIophe2VFrk", // Your Google Map Key
+      PointLatLng(position.latitude, position.longitude),
+      PointLatLng(destination.latitude, destination.longitude),
+    );
+    if (result.points.isNotEmpty) {
+      result.points.forEach(
+        (PointLatLng point) => polylineCoordinates.add(
+          LatLng(point.latitude, point.longitude),
+        ),
+      );
+      setState(() {});
+    }
+  }
+
   @override
   void dispose() {
     super.dispose();
@@ -77,6 +97,14 @@ class _MapBody extends State<MapBody> {
               zoom: 13.5,
             ),
             markers: _markers,
+            polylines: {
+              Polyline(
+                polylineId: const PolylineId("route"),
+                points: polylineCoordinates,
+                color: const Color(0xFF7B61FF),
+                width: 6,
+              ),
+            },
           )
         ],
       );
@@ -84,6 +112,8 @@ class _MapBody extends State<MapBody> {
       if (state is LocationUpdate) {
         _loadMarkers(state.latLng);
         await _updateCameraToBounds(state.latLng);
+      } else if (state is LocationsUpdate) {
+        getPolyPoints(state.latLngs.last, state.latLngs.first);
       }
     });
   }

@@ -21,6 +21,10 @@ class TrackingBloc extends Cubit<TrackingState> {
         onNext: (event) {
           if (event != null) {
             var data = event.data() as Map<String, dynamic>;
+            var locations = data['locations'] as List<dynamic>;
+            var locationsMap = locations.map<LatLng>((e) => LatLng(e.latitude, e.longitude));
+            emit(TrackingState.locations(locationsMap.toList()));
+
             var location = data['location'] as GeoPoint;
             emit(TrackingState.locationChange(LatLng(location.latitude, location.longitude)));
           }
