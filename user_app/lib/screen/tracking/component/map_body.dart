@@ -23,12 +23,15 @@ class _MapBody extends State<MapBody> {
   );
   List<LatLng> polylineCoordinates = [];
 
+  var destination = const LatLng(10.743553, 106.626414);
+  var location = const LatLng(10.724058, 106.628605);
+
   @override
   void initState() {
     // TODO: implement initState
     _bloc = context.read<TrackingBloc>();
     _bloc?.trackingLocationDriver("wOSYPFjGT2ZvAgm8ciDyM6eOntJ3");
-    getPolyPoints(const LatLng(10.7990167, 106.628680), const LatLng(10.743606, 106.627399));
+    getPolyPoints(destination, location);
     super.initState();
   }
 
@@ -48,8 +51,32 @@ class _MapBody extends State<MapBody> {
       onTap: () {},
     );
 
+    final makerDestination = Marker(
+      icon: BitmapDescriptor.defaultMarker,
+      markerId: MarkerId('2'),
+      position: destination,
+      infoWindow: InfoWindow(
+        title: "driver user",
+        snippet: latLng.toString(),
+      ),
+      onTap: () {},
+    );
+
+    final makerLocation = Marker(
+      icon: BitmapDescriptor.defaultMarker,
+      markerId: MarkerId('3'),
+      position: location,
+      infoWindow: InfoWindow(
+        title: "driver user",
+        snippet: latLng.toString(),
+      ),
+      onTap: () {},
+    );
+
     if (mounted) {
       setState(() {
+        _markers.add(makerDestination);
+        _markers.add(makerLocation);
         _markers.add(maker);
       });
     }
@@ -58,7 +85,7 @@ class _MapBody extends State<MapBody> {
   Future<void> _updateCameraToBounds(LatLng latLng) async {
     Future.delayed(const Duration(milliseconds: 500), () async {
       await _mapController.animateCamera(
-          CameraUpdate.newCameraPosition(CameraPosition(target: latLng, zoom: 13.5)));
+          CameraUpdate.newCameraPosition(CameraPosition(target: latLng, zoom: 15.5)));
     });
   }
 
@@ -69,7 +96,7 @@ class _MapBody extends State<MapBody> {
       PointLatLng(position.latitude, position.longitude),
       PointLatLng(destination.latitude, destination.longitude),
     );
-    print("Error ${result.errorMessage}");
+    print("Error ${result.status}");
     if (result.points.isNotEmpty) {
       result.points.forEach(
         (PointLatLng point) => polylineCoordinates.add(
