@@ -13,6 +13,8 @@ import 'package:rxdart/rxdart.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
+FirebaseOptions? _firebaseOptions;
+
 class TrackingLocationService {
   static const trackingLocationChannelId = 'tracking_location_id';
   static const trackingLocationChannelName = 'tracking location';
@@ -58,7 +60,10 @@ class TrackingLocationService {
   }
 
   /// Init background service
-  static Future<void> initializeService() async {
+  static Future<void> initializeService(FirebaseOptions options) async {
+
+    _firebaseOptions = options;
+
     var isRunning = await _service.isRunning();
     _isTracking.value = isRunning;
 
@@ -135,8 +140,17 @@ Future<bool> onIosBackground(ServiceInstance service) async {
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
   // Only available for flutter 3.0.0 and later
-  await Firebase.initializeApp();
   DartPluginRegistrant.ensureInitialized();
+  Firebase.initializeApp(options: const FirebaseOptions(
+    apiKey: 'AIzaSyATOXQWAzUSlI5WlAyJ0ayr-vn38ajModk',
+    appId: '1:309235316858:ios:a3f2de7775f07ae2d3a3c3',
+    messagingSenderId: '309235316858',
+    projectId: 'sts-mobile-case-study',
+    databaseURL: 'https://sts-mobile-case-study-default-rtdb.asia-southeast1.firebasedatabase.app',
+    storageBucket: 'sts-mobile-case-study.appspot.com',
+    iosClientId: '309235316858-b5pe5tu4pujc7643tg3ok511fssu6b2j.apps.googleusercontent.com',
+    iosBundleId: 'com.sts.userApp',
+  ));
 
   // For flutter prior to version 3.0.0
   // We have to register the plugin manually
@@ -191,7 +205,7 @@ void onStart(ServiceInstance service) async {
         (position) async {
       FirebaseFirestore.instance.collection('driver_location').doc('wOSYPFjGT2ZvAgm8ciDyM6eOntJ3').update(
           {
-            'location': GeoPoint(position.latitude, position.longitude)
+            'locations': FieldValue.arrayUnion([GeoPoint(position.latitude, position.longitude)])
           }
       ).catchError((error) => print("Failed to update user: $error"));
       service.invoke('updateCallback', {'position': jsonEncode(position)});
