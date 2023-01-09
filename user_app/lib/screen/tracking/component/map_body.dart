@@ -28,7 +28,7 @@ class _MapBody extends State<MapBody> {
     // TODO: implement initState
     _bloc = context.read<TrackingBloc>();
     _bloc?.trackingLocationDriver("wOSYPFjGT2ZvAgm8ciDyM6eOntJ3");
-    getPolyPoints(const LatLng(10.7990167, 106.6500732), const LatLng(10.7992554, 106.6495249));
+    getPolyPoints(const LatLng(10.7990167, 106.628680), const LatLng(10.743606, 106.627399));
     super.initState();
   }
 
@@ -65,10 +65,11 @@ class _MapBody extends State<MapBody> {
   void getPolyPoints(LatLng destination, LatLng position) async {
     PolylinePoints polylinePoints = PolylinePoints();
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      "AIzaSyDJTshFsX65daY7b1cAle30uIophe2VFrk", // Your Google Map Key
+      "AIzaSyAQy6JqnYDxGUUGwRj0bQrs7a9tr1z08iQ", // Your Google Map Key
       PointLatLng(position.latitude, position.longitude),
       PointLatLng(destination.latitude, destination.longitude),
     );
+    print("Error ${result.errorMessage}");
     if (result.points.isNotEmpty) {
       result.points.forEach(
         (PointLatLng point) => polylineCoordinates.add(
@@ -113,7 +114,7 @@ class _MapBody extends State<MapBody> {
         _loadMarkers(state.latLng);
         await _updateCameraToBounds(state.latLng);
       } else if (state is LocationsUpdate) {
-        getPolyPoints(state.latLngs.last, state.latLngs.first);
+        //getPolyPoints(state.latLngs.last, state.latLngs.first);
       }
     });
   }
