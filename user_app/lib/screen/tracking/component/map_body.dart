@@ -38,7 +38,6 @@ class _MapBody extends State<MapBody> {
     // TODO: implement initState
     _bloc = context.read<TrackingBloc>();
     _bloc?.trackingLocationDriver("wOSYPFjGT2ZvAgm8ciDyM6eOntJ3");
-    // getPolyPoints(destination, location);
     super.initState();
   }
 
@@ -170,6 +169,8 @@ class _MapBody extends State<MapBody> {
                                 isEnable = true;
                                 isShowDistance = true;
                               });
+                              destination = location;
+                              getPolyPoints(destination, this.location);
                             }),
                         const SizedBox(height: 15),
                         Visibility(visible: isShowDistance, child: Text("Distance ${2}km")),
@@ -181,6 +182,7 @@ class _MapBody extends State<MapBody> {
                             color: isEnable ? Colors.black : Colors.grey,
                             height: 50,
                             onPressed: () {
+                              _bloc?.updateStatusTrackingMap(destination);
                               setState(() {
                                 isHideSearch = false;
                               });

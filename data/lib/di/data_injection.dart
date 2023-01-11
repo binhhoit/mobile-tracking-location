@@ -15,6 +15,6 @@ final dataInjector = GetIt.instance;
 Future setupDataInjection(Environment env) async {
   await Hive.initFlutter();
   await PreferenceManager.init();
-  // await Firebase.initializeApp();
+  await Firebase.initializeApp();
   dataInjector.registerDependencies(environment: env.name);
 }

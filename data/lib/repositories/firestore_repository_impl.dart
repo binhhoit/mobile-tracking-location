@@ -22,6 +22,20 @@ class FirestoreRepositoryImpl extends FirestoreRepository with HandleNetworkMixi
       return documentStream;
     }
   }
+
+  @override
+  Future<void> updateStatusTrackingLocation(
+      {required String status, required GeoPoint geo, required String idDriver}) {
+    var documentStream = firestore
+        ?.collection(driverLocation)
+        .doc(idDriver)
+        .set({'status': status, 'destination': geo});
+    if (documentStream == null) {
+      throw Exception("Not data");
+    } else {
+      return documentStream;
+    }
+  }
 }
 
 const String driverLocation = 'driver_location';
