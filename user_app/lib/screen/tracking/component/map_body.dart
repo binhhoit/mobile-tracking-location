@@ -5,6 +5,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../bloc/tracking_bloc.dart';
 import '../bloc/tracking_state.dart';
+import 'location_bitmap_descriptor.dart';
 
 class MapBody extends StatefulWidget {
   MapBody({Key? key}) : super(key: key);
@@ -40,8 +41,14 @@ class _MapBody extends State<MapBody> {
   }
 
   void _loadMarkers(LatLng latLng) async {
+    final icon = await LocationBitmapDescriptor.makeMarkerIcon(
+      imageUrl:
+          "https://lh3.googleusercontent.com/a/AEdFTp6STrQp-0wPjkAppaGlyvUe0z6kHr3MUXOZ3YkM=s83-c-mo",
+      badge: null,
+    );
+
     final maker = Marker(
-      icon: BitmapDescriptor.defaultMarker,
+      icon: icon,
       markerId: MarkerId('1'),
       position: latLng,
       infoWindow: InfoWindow(

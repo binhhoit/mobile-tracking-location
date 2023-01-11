@@ -9,8 +9,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 extension LocationBitmapDescriptor on BitmapDescriptor {
   static Future<BitmapDescriptor> makeMarkerIcon({
     required String imageUrl,
-    Size size = const Size(200, 200),
-    required int badge,
+    Size size = const Size(150, 150),
+    required int? badge,
   }) async {
     final ui.PictureRecorder pictureRecorder = ui.PictureRecorder();
     final Canvas canvas = Canvas(pictureRecorder);
@@ -50,30 +50,32 @@ extension LocationBitmapDescriptor on BitmapDescriptor {
           bottomRight: radius,
         ),
         borderPaint);
+    if (badge != null) {
+      // Add tag circle
+      canvas.drawRRect(
+          RRect.fromRectAndCorners(
+            Rect.fromLTWH(size.width - tagWidth, 0.0, tagWidth, tagWidth),
+            topLeft: radius,
+            topRight: radius,
+            bottomLeft: radius,
+            bottomRight: radius,
+          ),
+          tagPaint);
 
-    // Add tag circle
-    canvas.drawRRect(
-        RRect.fromRectAndCorners(
-          Rect.fromLTWH(size.width - tagWidth, 0.0, tagWidth, tagWidth),
-          topLeft: radius,
-          topRight: radius,
-          bottomLeft: radius,
-          bottomRight: radius,
-        ),
-        tagPaint);
+      // Add tag text
 
-    // Add tag text
-    TextPainter textPainter = TextPainter(textDirection: TextDirection.ltr);
-    textPainter.text = TextSpan(
-      text: '$badge',
-      style: const TextStyle(fontSize: 30.0, color: Colors.white),
-    );
+      TextPainter textPainter = TextPainter(textDirection: TextDirection.ltr);
+      textPainter.text = TextSpan(
+        text: '$badge',
+        style: const TextStyle(fontSize: 30.0, color: Colors.white),
+      );
 
-    textPainter.layout();
-    textPainter.paint(
-        canvas,
-        Offset(size.width - tagWidth / 2 - textPainter.width / 2,
-            tagWidth / 2 - textPainter.height / 2));
+      textPainter.layout();
+      textPainter.paint(
+          canvas,
+          Offset(size.width - tagWidth / 2 - textPainter.width / 2,
+              tagWidth / 2 - textPainter.height / 2));
+    }
 
     // Oval for the image
     Rect oval = Rect.fromLTWH(
