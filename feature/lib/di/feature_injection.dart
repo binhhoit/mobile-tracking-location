@@ -1,4 +1,5 @@
 import 'package:data/di/data_injection.dart';
+import 'package:feature/utils/tracking_location_service.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
 
