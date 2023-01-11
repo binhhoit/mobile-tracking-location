@@ -16,6 +16,8 @@ class TrackingBloc extends Cubit<TrackingState> {
     emit(const TrackingState.loading());
   }
 
+  void updateStatusTrackingMap() {}
+
   void trackingLocationDriver(String idDriver) async {
     firestoreUserCase.executeF(
         onNext: (event) {
