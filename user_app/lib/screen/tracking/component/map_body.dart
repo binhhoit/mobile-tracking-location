@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_place/google_place.dart';
+import 'package:user_app/screen/tracking/component/search_address.dart';
 
 import '../bloc/tracking_bloc.dart';
 import '../bloc/tracking_state.dart';
@@ -17,6 +19,7 @@ class MapBody extends StatefulWidget {
 class _MapBody extends State<MapBody> {
   TrackingBloc? _bloc;
   final Set<Marker> _markers = {};
+  final GooglePlace _googlePlace = GooglePlace('AIzaSyAEGQ2Vmyz2OMQpOMSBSt5w8Wb7gJH8ip0');
   late GoogleMapController _mapController;
   final initLocation = const LatLng(
     0,
@@ -26,13 +29,16 @@ class _MapBody extends State<MapBody> {
 
   var destination = const LatLng(10.743553, 106.626414);
   var location = const LatLng(10.724058, 106.628605);
+  var isEnable = false;
+  var isShowDistance = false;
+  var isHideSearch = true;
 
   @override
   void initState() {
     // TODO: implement initState
     _bloc = context.read<TrackingBloc>();
     _bloc?.trackingLocationDriver("wOSYPFjGT2ZvAgm8ciDyM6eOntJ3");
-    getPolyPoints(destination, location);
+    // getPolyPoints(destination, location);
     super.initState();
   }
 
@@ -140,6 +146,57 @@ class _MapBody extends State<MapBody> {
                 width: 6,
               ),
             },
+          ),
+          Visibility(
+            visible: isHideSearch,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.white54, borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text("What address do you want to deliver to?"),
+                        const SizedBox(height: 20),
+                        SearchAddress(
+                            googlePlace: _googlePlace,
+                            onSearchLocation: (location) {
+                              _updateCameraToBounds(location);
+                              setState(() {
+                                isEnable = true;
+                                isShowDistance = true;
+                              });
+                            }),
+                        const SizedBox(height: 15),
+                        Visibility(visible: isShowDistance, child: Text("Distance ${2}km")),
+                        const SizedBox(height: 15),
+                        SizedBox(
+                          height: 45,
+                          width: double.infinity,
+                          child: MaterialButton(
+                            color: isEnable ? Colors.black : Colors.grey,
+                            height: 50,
+                            onPressed: () {
+                              setState(() {
+                                isHideSearch = false;
+                              });
+                            },
+                            child: const Text(
+                              "Confirm",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
           )
         ],
       );
