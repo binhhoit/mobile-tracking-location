@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:data/repositories/firestore_repository.dart';
 import 'package:injectable/injectable.dart';
+import 'package:uuid/uuid.dart';
 
 import '../base/use_case.dart';
 
@@ -12,7 +13,8 @@ class UpdateRequestTrackingUseCase extends UseCaseResult<void> {
 
   @override
   Future<void> execute({GeoPoint geoPoint = const GeoPoint(0, 0)}) {
+    var uuidRandomId = Uuid();
     return _firestoreRepository.updateStatusTrackingLocation(
-        status: "Create", geo: geoPoint, idDriver: "wOSYPFjGT2ZvAgm8ciDyM6eOntJ3");
+        status: "Create", geo: geoPoint, idOrder: uuidRandomId.v4());
   }
 }

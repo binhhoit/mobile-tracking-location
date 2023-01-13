@@ -1,7 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
+import 'package:feature/screen/login/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:injectable/injectable.dart';
-import 'package:user_app/screen/tracking/map_screen.dart';
+import 'package:user_app/screen/home/home_screen.dart';
 import 'package:user_app/user_injection.dart';
 
 void main() async {
@@ -26,11 +27,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const TrackingScreen(),
-    );
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: LoginScreen(
+          onSignInSuccess: (context) {
+            Navigator.push(
+              context,
+              MaterialPageRoute<void>(builder: (BuildContext context) => HomeScreen()),
+            );
+          },
+        ) /*TrackingScreen(),*/
+        );
   }
 }
