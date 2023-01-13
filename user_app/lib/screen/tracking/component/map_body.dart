@@ -108,7 +108,7 @@ class _MapBody extends State<MapBody> {
       PointLatLng(position.latitude, position.longitude),
       PointLatLng(destination.latitude, destination.longitude),
     );
-    print("Error ${result.status}");
+    print("Error ${result.status} ${result.errorMessage}");
     if (result.points.isNotEmpty) {
       result.points.forEach(
         (PointLatLng point) => polylineCoordinates.add(

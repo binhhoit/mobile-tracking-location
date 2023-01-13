@@ -46,15 +46,21 @@ class _OrdersBody extends State<OrdersBody> {
                   var geo = order[index]['destination'] as GeoPoint;
                   var idDriver = order[index]['driver_id'];
                   var destination = LatLng(geo.latitude, geo.longitude);
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute<void>(
-                        builder: (BuildContext context) => TrackingScreen(
-                              destination: destination,
-                              location: const LatLng(10.724058, 106.628605),
-                              idDriver: idDriver,
-                            )),
-                  );
+                  if (idDriver != null) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute<void>(
+                          builder: (BuildContext context) => TrackingScreen(
+                                destination: destination,
+                                location: const LatLng(10.724058, 106.628605),
+                                idDriver: idDriver,
+                              )),
+                    );
+                  } else {
+                    const SnackBar(
+                      content: Text("Driver not share location"),
+                    );
+                  }
                 },
                 child: Column(
                   children: [

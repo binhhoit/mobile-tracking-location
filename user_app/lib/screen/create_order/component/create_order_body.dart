@@ -23,7 +23,6 @@ class _CreateOrderBody extends State<CreateOrderBody> {
     0,
     0,
   );
-  List<LatLng> polylineCoordinates = [];
 
   var destination = const LatLng(10.743553, 106.626414);
   var isEnable = false;
@@ -60,22 +59,13 @@ class _CreateOrderBody extends State<CreateOrderBody> {
           return Stack(
             children: [
               GoogleMap(
-                myLocationButtonEnabled: false,
-                onMapCreated: _onMapCreated,
-                initialCameraPosition: CameraPosition(
-                  target: initLocation,
-                  zoom: 13.5,
-                ),
-                markers: _markers,
-                polylines: {
-                  Polyline(
-                    polylineId: const PolylineId("route"),
-                    points: polylineCoordinates,
-                    color: const Color(0xFF7B61FF),
-                    width: 6,
+                  myLocationButtonEnabled: false,
+                  onMapCreated: _onMapCreated,
+                  initialCameraPosition: CameraPosition(
+                    target: initLocation,
+                    zoom: 13.5,
                   ),
-                },
-              ),
+                  markers: _markers),
               Visibility(
                 visible: isHideSearch,
                 child: Center(

@@ -30,11 +30,11 @@ class _BottomBarState extends State<BottomBar> {
       },
       items: const [
         BottomNavigationBarItem(
-          icon: Icon(Icons.home),
+          icon: Icon(Icons.local_shipping),
           label: "Home",
         ),
         BottomNavigationBarItem(
-          icon: Icon(Icons.store),
+          icon: Icon(Icons.moped),
           label: "Order",
         ),
       ],
