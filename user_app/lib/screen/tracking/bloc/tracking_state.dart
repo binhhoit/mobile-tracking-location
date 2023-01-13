@@ -10,5 +10,4 @@ class TrackingState with _$TrackingState {
   const factory TrackingState.idle() = TrackingIdle;
   const factory TrackingState.error(String message) = TrackingError;
   const factory TrackingState.locationChange(LatLng latLng) = LocationUpdate;
-  const factory TrackingState.locations(List<LatLng> latLngs) = LocationsUpdate;
 }

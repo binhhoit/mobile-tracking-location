@@ -2,15 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:google_place/google_place.dart';
-import 'package:user_app/screen/tracking/component/search_address.dart';
 
 import '../bloc/tracking_bloc.dart';
 import '../bloc/tracking_state.dart';
 import 'location_bitmap_descriptor.dart';
 
 class MapBody extends StatefulWidget {
-  MapBody({Key? key}) : super(key: key);
+  MapBody({Key? key, required this.destination, required this.location, required this.idDriver})
+      : super(key: key);
+
+  LatLng destination;
+  LatLng location;
+  String idDriver;
 
   @override
   State<MapBody> createState() => _MapBody();
@@ -19,25 +22,22 @@ class MapBody extends StatefulWidget {
 class _MapBody extends State<MapBody> {
   TrackingBloc? _bloc;
   final Set<Marker> _markers = {};
-  final GooglePlace _googlePlace = GooglePlace('AIzaSyAEGQ2Vmyz2OMQpOMSBSt5w8Wb7gJH8ip0');
   late GoogleMapController _mapController;
   final initLocation = const LatLng(
     0,
     0,
   );
   List<LatLng> polylineCoordinates = [];
-
-  var destination = const LatLng(10.743553, 106.626414);
-  var location = const LatLng(10.724058, 106.628605);
   var isEnable = false;
   var isShowDistance = false;
   var isHideSearch = true;
+  var loadOnlyFirst = true;
 
   @override
   void initState() {
     // TODO: implement initState
     _bloc = context.read<TrackingBloc>();
-    _bloc?.trackingLocationDriver("wOSYPFjGT2ZvAgm8ciDyM6eOntJ3");
+    _bloc?.trackingLocationDriver(widget.idDriver /*"wOSYPFjGT2ZvAgm8ciDyM6eOntJ3"*/);
     super.initState();
   }
 
@@ -66,7 +66,7 @@ class _MapBody extends State<MapBody> {
     final makerDestination = Marker(
       icon: BitmapDescriptor.defaultMarker,
       markerId: MarkerId('2'),
-      position: destination,
+      position: widget.destination,
       infoWindow: InfoWindow(
         title: "driver user",
         snippet: latLng.toString(),
@@ -77,7 +77,7 @@ class _MapBody extends State<MapBody> {
     final makerLocation = Marker(
       icon: BitmapDescriptor.defaultMarker,
       markerId: MarkerId('3'),
-      position: location,
+      position: widget.location,
       infoWindow: InfoWindow(
         title: "driver user",
         snippet: latLng.toString(),
@@ -145,60 +145,6 @@ class _MapBody extends State<MapBody> {
                 width: 6,
               ),
             },
-          ),
-          Visibility(
-            visible: isHideSearch,
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Container(
-                  decoration: const BoxDecoration(
-                      color: Colors.white54, borderRadius: BorderRadius.all(Radius.circular(10.0))),
-                  child: Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Text("What address do you want to deliver to?"),
-                        const SizedBox(height: 20),
-                        SearchAddress(
-                            googlePlace: _googlePlace,
-                            onSearchLocation: (location) {
-                              _updateCameraToBounds(location);
-                              setState(() {
-                                isEnable = true;
-                                isShowDistance = true;
-                              });
-                              destination = location;
-                              getPolyPoints(destination, this.location);
-                            }),
-                        const SizedBox(height: 15),
-                        Visibility(visible: isShowDistance, child: Text("Distance ${2}km")),
-                        const SizedBox(height: 15),
-                        SizedBox(
-                          height: 45,
-                          width: double.infinity,
-                          child: MaterialButton(
-                            color: isEnable ? Colors.black : Colors.grey,
-                            height: 50,
-                            onPressed: () {
-                              _bloc?.updateStatusTrackingMap(destination);
-                              setState(() {
-                                isHideSearch = false;
-                              });
-                            },
-                            child: const Text(
-                              "Confirm",
-                              style: TextStyle(color: Colors.white),
-                            ),
-                          ),
-                        )
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ),
           )
         ],
       );
@@ -206,8 +152,10 @@ class _MapBody extends State<MapBody> {
       if (state is LocationUpdate) {
         _loadMarkers(state.latLng);
         await _updateCameraToBounds(state.latLng);
-      } else if (state is LocationsUpdate) {
-        //getPolyPoints(state.latLngs.last, state.latLngs.first);
+        if (loadOnlyFirst) {
+          getPolyPoints(widget.destination, state.latLng);
+          loadOnlyFirst = false;
+        }
       }
     });
   }

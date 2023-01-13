@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../tracking/map_screen.dart';
 import '../bloc/orders_bloc.dart';
@@ -42,9 +43,17 @@ class _OrdersBody extends State<OrdersBody> {
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () async {
+                  var geo = order[index]['destination'] as GeoPoint;
+                  var idDriver = order[index]['driver_id'];
+                  var destination = LatLng(geo.latitude, geo.longitude);
                   Navigator.push(
                     context,
-                    MaterialPageRoute<void>(builder: (BuildContext context) => TrackingScreen()),
+                    MaterialPageRoute<void>(
+                        builder: (BuildContext context) => TrackingScreen(
+                              destination: destination,
+                              location: const LatLng(10.724058, 106.628605),
+                              idDriver: idDriver,
+                            )),
                   );
                 },
                 child: Column(

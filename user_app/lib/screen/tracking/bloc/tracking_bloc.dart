@@ -13,15 +13,6 @@ class TrackingBloc extends Cubit<TrackingState> {
 
   TrackingBloc(this.firestoreUserCase, this.updateFirestoreUseCase) : super(const TrackingInit());
 
-  Future<void> streamLocationInMap(
-      {required String email, required String pass, required String passConfirm}) async {
-    emit(const TrackingState.loading());
-  }
-
-  void updateStatusTrackingMap(LatLng destination) {
-    updateFirestoreUseCase.execute(geoPoint: GeoPoint(destination.latitude, destination.longitude));
-  }
-
   void trackingLocationDriver(String idDriver) async {
     firestoreUserCase.executeF(
         onNext: (event) {
@@ -29,10 +20,6 @@ class TrackingBloc extends Cubit<TrackingState> {
             var data = event.data() as Map<String, dynamic>;
             var location = data['location'] as GeoPoint;
             emit(TrackingState.locationChange(LatLng(location.latitude, location.longitude)));
-
-            var locations = data['locations'] as List<dynamic>;
-            var locationsMap = locations.map<LatLng>((e) => LatLng(e.latitude, e.longitude));
-            emit(TrackingState.locations(locationsMap.toList()));
           }
         },
         onError: (e) {
