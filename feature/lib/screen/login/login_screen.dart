@@ -6,28 +6,16 @@ import 'bloc/login_bloc.dart';
 import 'component/body_login.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  LoginScreen({Key? key, required this.onSignInSuccess}) : super(key: key);
+
+  Function(BuildContext context) onSignInSuccess;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      /*appBar: AppBar(
-        title: const Text("Login"),
-        titleTextStyle: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.w400,
-          fontSize: 20,
-        ),
-        backgroundColor: Colors.black,
-        centerTitle: true,
-        leading: IconButton(
-          onPressed: () => Navigator.pop(context),
-          icon: const Icon(Icons.arrow_back),
-        ),
-      ),*/
       body: BlocProvider<LoginBloc>(
         create: (context) => featureInjector.get(),
-        child: BodyLogin(),
+        child: BodyLogin(onSignInSuccess: onSignInSuccess),
       ),
     );
   }

@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase;
 import 'package:injectable/injectable.dart';
 
 import '../helpers/handle_network_mixin.dart';
@@ -7,9 +9,11 @@ import 'firestore_repository.dart';
 @Injectable(as: FirestoreRepository)
 class FirestoreRepositoryImpl extends FirestoreRepository with HandleNetworkMixin {
   FirebaseFirestore? firestore;
+  FirebaseAuth? firebaseAuth;
 
   FirestoreRepositoryImpl() {
     firestore = FirebaseFirestore.instance;
+    firebaseAuth = firebase.FirebaseAuth.instance;
   }
 
   @override
@@ -22,6 +26,38 @@ class FirestoreRepositoryImpl extends FirestoreRepository with HandleNetworkMixi
       return documentStream;
     }
   }
+
+  @override
+  Future<void> updateStatusTrackingLocation(
+      {required String status, required GeoPoint geo, required String idOrder}) {
+    var idUser = firebaseAuth?.currentUser?.uid ?? "";
+    var documentStream = firestore?.collection(orderDocument).doc(idOrder).set({
+      'status': status,
+      'destination': geo,
+      'create_by': idUser,
+      'order_owner_id': idUser,
+      'receiver_location': geo,
+      'created': DateTime.now()
+    });
+    if (documentStream == null) {
+      throw Exception("Not data");
+    } else {
+      return documentStream;
+    }
+  }
+
+  @override
+  Future<QuerySnapshot<Map<String, dynamic>>> getListOrderByUser() {
+    var idUser = firebaseAuth?.currentUser?.uid ?? "";
+    var documentStream =
+        firestore?.collection(orderDocument).where("create_by", isEqualTo: idUser).get();
+    if (documentStream == null) {
+      throw Exception("Not data");
+    } else {
+      return documentStream;
+    }
+  }
 }
 
 const String driverLocation = 'driver_location';
+const String orderDocument = 'orders';
