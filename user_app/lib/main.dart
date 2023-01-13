@@ -31,6 +31,9 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
         home: LoginScreen(
           onSignInSuccess: (context) {
             Navigator.push(
@@ -38,7 +41,6 @@ class MyApp extends StatelessWidget {
               MaterialPageRoute<void>(builder: (BuildContext context) => HomeScreen()),
             );
           },
-        ) /*TrackingScreen(),*/
-        );
+        ));
   }
 }
