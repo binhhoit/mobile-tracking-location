@@ -14,15 +14,18 @@ class OrdersBody extends StatefulWidget {
   State<OrdersBody> createState() => _OrdersBody();
 }
 
-class _OrdersBody extends State<OrdersBody> {
+class _OrdersBody extends State<OrdersBody> with SingleTickerProviderStateMixin {
   OrdersBloc? _bloc;
   List<Map> order = [];
+  late AnimationController _animationController;
 
   @override
   void initState() {
     // TODO: implement initState
     _bloc = context.read<OrdersBloc>();
     _bloc?.getListOrder();
+    _animationController = AnimationController(vsync: this, duration: const Duration(seconds: 1));
+    _animationController.repeat(reverse: true);
     super.initState();
   }
 
@@ -59,9 +62,9 @@ class _OrdersBody extends State<OrdersBody> {
                               )),
                     );
                   } else {
-                    const SnackBar(
+                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                       content: Text("Driver not share location"),
-                    );
+                    ));
                   }
                 },
                 child: Column(
@@ -69,13 +72,30 @@ class _OrdersBody extends State<OrdersBody> {
                     SizedBox(
                       height: 40,
                       child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          (order[index]['created'] as Timestamp).toDate().toString(),
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
+                          alignment: Alignment.centerLeft,
+                          child: Row(
+                            children: [
+                              Text(
+                                (order[index]['created'] as Timestamp).toDate().toString(),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              Spacer(),
+                              if (order[index]['status'] == 'In-progress')
+                                FadeTransition(
+                                  opacity: _animationController,
+                                  child: MaterialButton(
+                                    onPressed: () => null,
+                                    child: const Icon(
+                                      Icons.local_shipping,
+                                      color: Colors.red,
+                                      size: 24.0,
+                                      semanticLabel: 'Text to announce in accessibility modes',
+                                    ),
+                                  ),
+                                )
+                            ],
+                          )),
                     ),
                     const Divider()
                   ],
