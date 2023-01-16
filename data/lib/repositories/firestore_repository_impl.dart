@@ -57,6 +57,17 @@ class FirestoreRepositoryImpl extends FirestoreRepository with HandleNetworkMixi
       return documentStream;
     }
   }
+
+  @override
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getOrderData({required String idOrder}) {
+    Stream<DocumentSnapshot<Map<String, dynamic>>>? documentStream =
+        firestore?.collection(orderDocument).doc(idOrder).snapshots();
+    if (documentStream == null) {
+      throw Exception("Not data");
+    } else {
+      return documentStream;
+    }
+  }
 }
 
 const String driverLocation = 'driver_location';

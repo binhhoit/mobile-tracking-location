@@ -46,6 +46,7 @@ class _OrdersBody extends State<OrdersBody> {
                   var geo = order[index]['destination'] as GeoPoint;
                   var idDriver = order[index]['driver_id'];
                   var destination = LatLng(geo.latitude, geo.longitude);
+                  var idOrderDocument = order[index]['id'];
                   if (idDriver != null) {
                     Navigator.push(
                       context,
@@ -54,6 +55,7 @@ class _OrdersBody extends State<OrdersBody> {
                                 destination: destination,
                                 location: const LatLng(10.724058, 106.628605),
                                 idDriver: idDriver,
+                                idOderDocument: idOrderDocument,
                               )),
                     );
                   } else {

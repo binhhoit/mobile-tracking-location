@@ -8,12 +8,18 @@ import '../bloc/tracking_state.dart';
 import 'location_bitmap_descriptor.dart';
 
 class MapBody extends StatefulWidget {
-  MapBody({Key? key, required this.destination, required this.location, required this.idDriver})
+  MapBody(
+      {Key? key,
+      required this.destination,
+      required this.location,
+      required this.idDriver,
+      required this.idOderDocument})
       : super(key: key);
 
   LatLng destination;
   LatLng location;
   String idDriver;
+  String idOderDocument;
 
   @override
   State<MapBody> createState() => _MapBody();
@@ -37,7 +43,7 @@ class _MapBody extends State<MapBody> {
   void initState() {
     // TODO: implement initState
     _bloc = context.read<TrackingBloc>();
-    _bloc?.trackingLocationDriver(widget.idDriver /*"wOSYPFjGT2ZvAgm8ciDyM6eOntJ3"*/);
+    _bloc?.orderDetailStream(widget.idOderDocument, widget.idDriver);
     super.initState();
   }
 
@@ -45,23 +51,26 @@ class _MapBody extends State<MapBody> {
     _mapController = controller;
   }
 
-  void _loadMarkers(LatLng latLng) async {
+  void _loadMarkers(LatLng? latLng) async {
     final icon = await LocationBitmapDescriptor.makeMarkerIcon(
       imageUrl:
           "https://lh3.googleusercontent.com/a/AEdFTp6STrQp-0wPjkAppaGlyvUe0z6kHr3MUXOZ3YkM=s83-c-mo",
       badge: null,
     );
 
-    final maker = Marker(
-      icon: icon,
-      markerId: MarkerId('1'),
-      position: latLng,
-      infoWindow: InfoWindow(
-        title: "driver user",
-        snippet: latLng.toString(),
-      ),
-      onTap: () {},
-    );
+    if (latLng != null) {
+      final maker = Marker(
+        icon: icon,
+        markerId: MarkerId('1'),
+        position: latLng,
+        infoWindow: InfoWindow(
+          title: "driver user",
+          snippet: latLng.toString(),
+        ),
+        onTap: () {},
+      );
+      _markers.add(maker);
+    }
 
     final makerDestination = Marker(
       icon: BitmapDescriptor.defaultMarker,
@@ -89,7 +98,6 @@ class _MapBody extends State<MapBody> {
       setState(() {
         _markers.add(makerDestination);
         _markers.add(makerLocation);
-        _markers.add(maker);
       });
     }
   }
@@ -145,7 +153,23 @@ class _MapBody extends State<MapBody> {
                 width: 6,
               ),
             },
-          )
+          ),
+          if (state is TrackingError)
+            Center(
+              child: Column(
+                children: [
+                  Container(
+                    decoration: const BoxDecoration(
+                        color: Colors.white54,
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Text(state.message),
+                    ),
+                  )
+                ],
+              ),
+            ),
         ],
       );
     }, listener: (context, state) async {
@@ -156,6 +180,12 @@ class _MapBody extends State<MapBody> {
           getPolyPoints(widget.destination, state.latLng);
           loadOnlyFirst = false;
         }
+      } else if (state is TrackingError) {
+        _updateCameraToBounds(widget.destination);
+        _loadMarkers(null);
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+          content: Text(state.message),
+        ));
       }
     });
   }

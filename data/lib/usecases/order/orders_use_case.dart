@@ -14,7 +14,9 @@ class OrdersUseCase extends UseCaseResult<void> {
     List<Map> listOrder = [];
     await _firestoreRepository.getListOrderByUser().then((value) {
       value.docs.forEach((doc) {
-        listOrder.add(doc.data());
+        var data = doc.data();
+        data.addAll({'id': doc.id});
+        listOrder.add(data);
       });
       listOrder;
     });

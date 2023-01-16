@@ -9,12 +9,17 @@ import '../../user_injection.dart';
 
 class TrackingScreen extends StatelessWidget {
   TrackingScreen(
-      {Key? key, required this.destination, required this.location, required this.idDriver})
+      {Key? key,
+      required this.destination,
+      required this.location,
+      required this.idDriver,
+      required this.idOderDocument})
       : super(key: key);
 
   LatLng destination;
   LatLng location;
   String idDriver;
+  String idOderDocument;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +40,12 @@ class TrackingScreen extends StatelessWidget {
       ),
       body: BlocProvider<TrackingBloc>(
         create: (context) => injector.get(),
-        child: MapBody(destination: destination, location: location, idDriver: idDriver),
+        child: MapBody(
+          destination: destination,
+          location: location,
+          idDriver: idDriver,
+          idOderDocument: idOderDocument,
+        ),
       ),
     );
   }

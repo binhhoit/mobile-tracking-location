@@ -7,4 +7,6 @@ abstract class FirestoreRepository {
       {required String status, required GeoPoint geo, required String idOrder});
 
   Future<QuerySnapshot<Map<String, dynamic>>> getListOrderByUser();
+
+  Stream<DocumentSnapshot<Map<String, dynamic>>> getOrderData({required String idOrder});
 }
