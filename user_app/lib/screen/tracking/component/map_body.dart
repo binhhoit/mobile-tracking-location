@@ -124,6 +124,10 @@ class _MapBody extends State<MapBody> {
         ),
       );
       setState(() {});
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(result.errorMessage ?? ""),
+      ));
     }
   }
 
