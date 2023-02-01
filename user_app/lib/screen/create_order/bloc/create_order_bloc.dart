@@ -12,8 +12,9 @@ class CreateOrderBloc extends Cubit<CreateOrderState> {
 
   CreateOrderBloc(this.updateFirestoreUseCase) : super(const CreateOrderInit());
 
-  void updateStatusTrackingMap(LatLng destination, String addressName) {
-    updateFirestoreUseCase.execute(
+  Future<void> updateStatusTrackingMap(LatLng destination, String addressName) async {
+    await updateFirestoreUseCase.execute(
         geoPoint: GeoPoint(destination.latitude, destination.longitude), addressName: addressName);
+    emit(const CreateOrderState.SuccessUploadOrder());
   }
 }

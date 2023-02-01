@@ -10,4 +10,5 @@ class CreateOrderState with _$CreateOrderState {
   const factory CreateOrderState.idle() = CreateOrderIdle;
   const factory CreateOrderState.error(String message) = CreateOrderError;
   const factory CreateOrderState.locations(List<LatLng> latLngs) = LocationsUpdate;
+  const factory CreateOrderState.SuccessUploadOrder() = SuccessUploadOrder;
 }
