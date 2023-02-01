@@ -21,11 +21,12 @@ class UserRepositoryImpl extends UserRepository with HandleNetworkMixin {
 
   @override
   Future<bool> isAuthentication() async {
-    if (firebase.FirebaseAuth.instance.currentUser != null) {
-      return true;
-    } else {
-      return false;
-    }
+    return firebase.FirebaseAuth.instance.currentUser != null;
+  }
+
+  @override
+  Future<void> logout() async {
+    return firebase.FirebaseAuth.instance.currentUser?.delete();
   }
 
   @override

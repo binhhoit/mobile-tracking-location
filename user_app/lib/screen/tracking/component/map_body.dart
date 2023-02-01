@@ -134,6 +134,7 @@ class _MapBody extends State<MapBody> {
   @override
   void dispose() {
     super.dispose();
+    _bloc?.getOrderDetailsUseCase.dispose();
   }
 
   @override
