@@ -10,7 +10,7 @@ class SearchAddress extends StatefulWidget {
       : super(key: key);
 
   final GooglePlace googlePlace;
-  final Function(LatLng) onSearchLocation;
+  final Function(LatLng, String) onSearchLocation;
 
   @override
   State<SearchAddress> createState() => _SearchAddressState();
@@ -92,7 +92,7 @@ class _SearchAddressState extends State<SearchAddress> {
                     if (result != null) {
                       final location = LatLng(
                           result.geometry?.location?.lat ?? 0, result.geometry?.location?.lng ?? 0);
-                      widget.onSearchLocation(location);
+                      widget.onSearchLocation(location, _predictions[index].description ?? "");
                       controlTextField.text = _predictions[index].description ?? "";
                       setState(() {
                         _predictions.clear();

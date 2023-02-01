@@ -12,9 +12,12 @@ class UpdateRequestTrackingUseCase extends UseCaseResult<void> {
   UpdateRequestTrackingUseCase(this._firestoreRepository);
 
   @override
-  Future<void> execute({GeoPoint geoPoint = const GeoPoint(0, 0)}) {
+  Future<void> execute({
+    GeoPoint geoPoint = const GeoPoint(0, 0),
+    String addressName = "",
+  }) {
     var uuidRandomId = Uuid();
     return _firestoreRepository.updateStatusTrackingLocation(
-        status: "Create", geo: geoPoint, idOrder: uuidRandomId.v4());
+        status: "Create", geo: geoPoint, idOrder: uuidRandomId.v4(), addressName: addressName);
   }
 }

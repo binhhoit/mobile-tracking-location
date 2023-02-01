@@ -28,6 +28,7 @@ class _CreateOrderBody extends State<CreateOrderBody> {
   var isEnable = false;
   var isShowDistance = false;
   var isHideSearch = true;
+  var addressNameSelected = "";
 
   @override
   void initState() {
@@ -84,13 +85,14 @@ class _CreateOrderBody extends State<CreateOrderBody> {
                             const SizedBox(height: 20),
                             SearchAddress(
                                 googlePlace: _googlePlace,
-                                onSearchLocation: (location) {
+                                onSearchLocation: (location, addressName) {
                                   _updateCameraToBounds(location);
                                   setState(() {
                                     isEnable = true;
                                     isShowDistance = true;
                                   });
                                   destination = location;
+                                  addressNameSelected = addressName;
                                 }),
                             const SizedBox(height: 15),
                             Visibility(visible: isShowDistance, child: Text("Distance ${2}km")),
@@ -102,7 +104,7 @@ class _CreateOrderBody extends State<CreateOrderBody> {
                                 color: isEnable ? Colors.black : Colors.grey,
                                 height: 50,
                                 onPressed: () {
-                                  _bloc?.updateStatusTrackingMap(destination);
+                                  _bloc?.updateStatusTrackingMap(destination, addressNameSelected);
                                   setState(() {
                                     isHideSearch = false;
                                   });

@@ -29,7 +29,10 @@ class FirestoreRepositoryImpl extends FirestoreRepository with HandleNetworkMixi
 
   @override
   Future<void> updateStatusTrackingLocation(
-      {required String status, required GeoPoint geo, required String idOrder}) {
+      {required String status,
+      required GeoPoint geo,
+      required String idOrder,
+      required String addressName}) {
     var idUser = firebaseAuth?.currentUser?.uid ?? "";
     var documentStream = firestore?.collection(orderDocument).doc(idOrder).set({
       'status': status,
@@ -37,7 +40,8 @@ class FirestoreRepositoryImpl extends FirestoreRepository with HandleNetworkMixi
       'create_by': idUser,
       'order_owner_id': idUser,
       'receiver_location': geo,
-      'created': DateTime.now()
+      'created': DateTime.now(),
+      'addressName': addressName
     });
     if (documentStream == null) {
       throw Exception("Not data");
