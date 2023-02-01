@@ -21,6 +21,14 @@ class CreateOrderScreen extends StatelessWidget {
         ),
         backgroundColor: Colors.black,
         centerTitle: true,
+        /* actions: [
+          IconButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            icon: const Icon(Icons.logout_outlined),
+          )
+        ],*/
       ),
       body: BlocProvider<CreateOrderBloc>(
         create: (context) => injector.get(),

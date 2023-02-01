@@ -20,6 +20,15 @@ class UserRepositoryImpl extends UserRepository with HandleNetworkMixin {
   }
 
   @override
+  Future<bool> isAuthentication() async {
+    if (firebase.FirebaseAuth.instance.currentUser != null) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @override
   Future<bool> registerWithGmail(String email, String password) async {
     try {
       firebase.UserCredential userCredential = await firebase.FirebaseAuth.instance

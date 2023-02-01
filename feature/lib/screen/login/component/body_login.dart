@@ -27,6 +27,7 @@ class _BodyLogin extends State<BodyLogin> {
     _bloc = context.read<LoginBloc>();
     userName.text = "binh1@gmail.com";
     password.text = "123456";
+    _bloc?.isAuthentication();
     super.initState();
   }
 

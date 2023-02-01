@@ -15,14 +15,15 @@ import '../repositories/firestore_repository.dart' as _i4;
 import '../repositories/firestore_repository_impl.dart' as _i5;
 import '../repositories/user_repository.dart' as _i12;
 import '../repositories/user_repository_impl.dart' as _i13;
-import '../usecases/auth/login_use_case.dart' as _i14;
-import '../usecases/auth/register_use_case.dart' as _i15;
+import '../usecases/auth/check_login_use_case.dart' as _i14;
+import '../usecases/auth/login_use_case.dart' as _i15;
+import '../usecases/auth/register_use_case.dart' as _i16;
 import '../usecases/location/tracking_location_driver_use_case.dart' as _i10;
 import '../usecases/location/update_status_request_tracking_use_case.dart'
     as _i11;
 import '../usecases/order/order_detail_use_case.dart' as _i6;
 import '../usecases/order/orders_use_case.dart' as _i7;
-import 'data_module.dart' as _i16; // ignore_for_file: unnecessary_lambdas
+import 'data_module.dart' as _i17; // ignore_for_file: unnecessary_lambdas
 
 // ignore_for_file: lines_longer_than_80_chars
 /// an extension to register the provided dependencies inside of [GetIt]
@@ -52,12 +53,14 @@ extension GetItInjectableX on _i1.GetIt {
     gh.factory<_i11.UpdateRequestTrackingUseCase>(() =>
         _i11.UpdateRequestTrackingUseCase(get<_i4.FirestoreRepository>()));
     gh.factory<_i12.UserRepository>(() => _i13.UserRepositoryImpl());
-    gh.factory<_i14.LoginUseCase>(
-        () => _i14.LoginUseCase(get<_i12.UserRepository>()));
-    gh.factory<_i15.RegisterUseCase>(
-        () => _i15.RegisterUseCase(get<_i12.UserRepository>()));
+    gh.factory<_i14.CheckLoginUseCase>(
+        () => _i14.CheckLoginUseCase(get<_i12.UserRepository>()));
+    gh.factory<_i15.LoginUseCase>(
+        () => _i15.LoginUseCase(get<_i12.UserRepository>()));
+    gh.factory<_i16.RegisterUseCase>(
+        () => _i16.RegisterUseCase(get<_i12.UserRepository>()));
     return this;
   }
 }
 
-class _$DataModule extends _i16.DataModule {}
+class _$DataModule extends _i17.DataModule {}

@@ -29,6 +29,12 @@ class _OrdersBody extends State<OrdersBody> with SingleTickerProviderStateMixin 
     super.initState();
   }
 
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
   Future<void> _pullRefresh() async {
     await _bloc?.getListOrder();
     await Future.delayed(const Duration(milliseconds: 1000));
