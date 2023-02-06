@@ -14,7 +14,7 @@ class TrackingBloc extends Cubit<TrackingState> {
   GetOrderDetailsUseCase getOrderDetailsUseCase;
 
   TrackingBloc(this.firestoreUserCase, this.updateFirestoreUseCase, this.getOrderDetailsUseCase)
-      : super(const TrackingInit());
+      : super(const TrackingState.init());
 
   void trackingLocationDriver(String idDriver) async {
     firestoreUserCase.executeF(
@@ -34,7 +34,7 @@ class TrackingBloc extends Cubit<TrackingState> {
 
   void orderDetailStream(String idOder, String idDriver) async {
     getOrderDetailsUseCase.executeF(
-        onNext: (event) {
+        onNext: (event) async {
           if (event != null) {
             var data = event.data() as Map<String, dynamic>;
             if (data['status'] == 'In-progress') {
@@ -42,8 +42,8 @@ class TrackingBloc extends Cubit<TrackingState> {
             } else {
               emit(TrackingState.error('Order Status ${data['status']}'));
             }
-            /*  var location = data['location'] as GeoPoint;
-            emit(TrackingState.locationChange(LatLng(location.latitude, location.longitude)));*/
+            await Future.delayed(const Duration(milliseconds: 1000));
+            emit(TrackingState.orderData(data));
           }
         },
         onError: (e) {

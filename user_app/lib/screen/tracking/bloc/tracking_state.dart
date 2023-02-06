@@ -9,5 +9,6 @@ class TrackingState with _$TrackingState {
   const factory TrackingState.loading() = TrackingLoading;
   const factory TrackingState.idle() = TrackingIdle;
   const factory TrackingState.error(String message) = TrackingError;
+  const factory TrackingState.orderData(Map<String, dynamic> data) = OrderDataState;
   const factory TrackingState.locationChange(LatLng latLng) = LocationUpdate;
 }

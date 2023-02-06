@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -34,10 +35,6 @@ class _MapBody extends State<MapBody> {
     0,
   );
   List<LatLng> polylineCoordinates = [];
-  var isEnable = false;
-  var isShowDistance = false;
-  var isHideSearch = true;
-  var loadOnlyFirst = true;
 
   @override
   void initState() {
@@ -159,6 +156,66 @@ class _MapBody extends State<MapBody> {
               ),
             },
           ),
+          if (state is OrderDataState)
+            Column(
+              children: [
+                const Spacer(),
+                Container(
+                  alignment: Alignment.bottomCenter,
+                  decoration: const BoxDecoration(
+                      color: Colors.white70, borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: const [
+                            Text("Shipping From:"),
+                            Text("Destination:"),
+                            Text("Time:"),
+                            Text("Distance:"),
+                            Text("Status:"),
+                            Text("Price Total:")
+                          ],
+                        ),
+                        const SizedBox(
+                          width: 10,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SizedBox(
+                              width: 280,
+                              child: Text(
+                                state.data['start_location_name'].toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.fade,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 280,
+                              child: Text(
+                                state.data['addressName'].toString(),
+                                maxLines: 1,
+                                overflow: TextOverflow.fade,
+                              ),
+                            ),
+                            Text((state.data['created'] as Timestamp).toDate().toString()),
+                            const Text("2km"),
+                            Text(state.data['status'].toString()),
+                            const Text('16.00 \$')
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
           if (state is TrackingError)
             Center(
               child: Column(
@@ -181,16 +238,15 @@ class _MapBody extends State<MapBody> {
       if (state is LocationUpdate) {
         _loadMarkers(state.latLng);
         await _updateCameraToBounds(state.latLng);
-        if (loadOnlyFirst) {
-          getPolyPoints(widget.destination, state.latLng);
-          loadOnlyFirst = false;
-        }
       } else if (state is TrackingError) {
         _updateCameraToBounds(widget.destination);
         _loadMarkers(null);
         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
           content: Text(state.message),
         ));
+      } else if (state is OrderDataState) {
+        var start = state.data['start_location'] as GeoPoint;
+        getPolyPoints(widget.destination, LatLng(start.latitude, start.longitude));
       }
     });
   }
