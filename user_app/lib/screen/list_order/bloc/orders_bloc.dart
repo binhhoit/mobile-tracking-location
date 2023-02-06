@@ -26,4 +26,10 @@ class OrdersBloc extends Cubit<OrdersState> {
         onError: (e) {},
         onComplete: () {});
   }
+
+  @override
+  Future close() async {
+    ordersUseCase.dispose();
+    super.close();
+  }
 }

@@ -32,7 +32,6 @@ class _OrdersBody extends State<OrdersBody> with SingleTickerProviderStateMixin 
   @override
   void dispose() {
     _animationController.dispose();
-    _bloc?.ordersUseCase.dispose();
     super.dispose();
   }
 

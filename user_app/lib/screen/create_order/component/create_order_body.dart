@@ -25,10 +25,15 @@ class _CreateOrderBody extends State<CreateOrderBody> {
   );
 
   var destination = const LatLng(10.743553, 106.626414);
-  var isEnable = false;
+  var isEnableOne = false;
+  var isEnableTwo = false;
   var isShowDistance = false;
   var isHideSearch = true;
+  var isHideStartAddress = false;
   var addressNameSelected = "";
+
+  var addressNameStart = "";
+  var startLocation = const LatLng(10.743553, 106.626414);
 
   @override
   void initState() {
@@ -86,11 +91,62 @@ class _CreateOrderBody extends State<CreateOrderBody> {
                             onSearchLocation: (location, addressName) {
                               _updateCameraToBounds(location);
                               setState(() {
-                                isEnable = true;
-                                isShowDistance = true;
+                                isEnableOne = true;
                               });
                               destination = location;
                               addressNameSelected = addressName;
+                            }),
+                        const SizedBox(height: 15),
+                        SizedBox(
+                          height: 45,
+                          width: double.infinity,
+                          child: MaterialButton(
+                            color: isEnableOne ? Colors.black : Colors.grey,
+                            height: 50,
+                            onPressed: () {
+                              setState(() {
+                                isHideSearch = false;
+                                isHideStartAddress = true;
+                              });
+                            },
+                            child: const Text(
+                              "Next",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Visibility(
+            visible: isHideStartAddress,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                  decoration: const BoxDecoration(
+                      color: Colors.white54, borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                  child: Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Text("What is the delivery address?"),
+                        const SizedBox(height: 20),
+                        SearchAddress(
+                            googlePlace: _googlePlace,
+                            onSearchLocation: (location, addressName) {
+                              _updateCameraToBounds(location);
+                              setState(() {
+                                isEnableTwo = true;
+                                isShowDistance = true;
+                              });
+                              startLocation = location;
+                              addressNameStart = addressName;
                             }),
                         const SizedBox(height: 15),
                         Visibility(visible: isShowDistance, child: Text("Distance ${2}km")),
@@ -99,12 +155,13 @@ class _CreateOrderBody extends State<CreateOrderBody> {
                           height: 45,
                           width: double.infinity,
                           child: MaterialButton(
-                            color: isEnable ? Colors.black : Colors.grey,
+                            color: isEnableTwo ? Colors.black : Colors.grey,
                             height: 50,
                             onPressed: () {
-                              _bloc?.updateStatusTrackingMap(destination, addressNameSelected);
+                              _bloc?.updateStatusTrackingMap(destination, addressNameSelected,
+                                  startLocation, addressNameStart);
                               setState(() {
-                                isHideSearch = false;
+                                isHideStartAddress = false;
                               });
                             },
                             child: const Text(

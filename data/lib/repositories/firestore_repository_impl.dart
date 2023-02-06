@@ -32,7 +32,9 @@ class FirestoreRepositoryImpl extends FirestoreRepository with HandleNetworkMixi
       {required String status,
       required GeoPoint geo,
       required String idOrder,
-      required String addressName}) {
+      required String addressName,
+      required GeoPoint geoStart,
+      required String addressNameStart}) {
     var idUser = firebaseAuth?.currentUser?.uid ?? "";
     var documentStream = firestore?.collection(orderDocument).doc(idOrder).set({
       'status': status,
@@ -41,7 +43,10 @@ class FirestoreRepositoryImpl extends FirestoreRepository with HandleNetworkMixi
       'order_owner_id': idUser,
       'receiver_location': geo,
       'created': DateTime.now(),
-      'addressName': addressName
+      'addressName': addressName,
+      'start_location': geoStart,
+      'start_location_name': addressNameStart,
+      'flag': true,
     });
     if (documentStream == null) {
       throw Exception("Not data");

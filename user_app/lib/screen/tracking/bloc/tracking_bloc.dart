@@ -39,6 +39,8 @@ class TrackingBloc extends Cubit<TrackingState> {
             var data = event.data() as Map<String, dynamic>;
             if (data['status'] == 'In-progress') {
               trackingLocationDriver(idDriver);
+            } else if (data['status'] == 'Done' || data['status'] == 'Canceled') {
+              firestoreUserCase.dispose();
             } else {
               emit(TrackingState.error('Order Status ${data['status']}'));
             }
@@ -51,5 +53,12 @@ class TrackingBloc extends Cubit<TrackingState> {
         },
         onComplete: () {},
         params: idOder);
+  }
+
+  @override
+  Future close() async {
+    getOrderDetailsUseCase.dispose();
+    firestoreUserCase.dispose();
+    super.close();
   }
 }

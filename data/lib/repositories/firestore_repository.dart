@@ -7,7 +7,9 @@ abstract class FirestoreRepository {
       {required String status,
       required GeoPoint geo,
       required String idOrder,
-      required String addressName});
+      required String addressName,
+      required GeoPoint geoStart,
+      required String addressNameStart});
 
   Stream<QuerySnapshot<Map<String, dynamic>>> getListOrderByUser();
 
