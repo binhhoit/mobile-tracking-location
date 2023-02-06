@@ -51,10 +51,10 @@ class FirestoreRepositoryImpl extends FirestoreRepository with HandleNetworkMixi
   }
 
   @override
-  Future<QuerySnapshot<Map<String, dynamic>>> getListOrderByUser() {
+  Stream<QuerySnapshot<Map<String, dynamic>>> getListOrderByUser() {
     var idUser = firebaseAuth?.currentUser?.uid ?? "";
-    var documentStream =
-        firestore?.collection(orderDocument).where("create_by", isEqualTo: idUser).get();
+    Stream<QuerySnapshot<Map<String, dynamic>>>? documentStream =
+        firestore?.collection(orderDocument).where("create_by", isEqualTo: idUser).snapshots();
     if (documentStream == null) {
       throw Exception("Not data");
     } else {

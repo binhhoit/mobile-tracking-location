@@ -9,9 +9,21 @@ class OrdersBloc extends Cubit<OrdersState> {
 
   OrdersBloc(this.ordersUseCase) : super(const OrdersInit());
 
-  Future<void> getListOrder() async {
+  void getListOrder() async {
     emit(const OrdersState.loading());
-    var list = await ordersUseCase.execute();
-    emit(OrdersState.orders(list));
+    ordersUseCase.executeF(
+        onNext: (event) {
+          if (event != null) {
+            List<Map> listOrder = [];
+            for (var doc in event.docs) {
+              var data = doc.data();
+              data.addAll({'id': doc.id});
+              listOrder.add(data);
+            }
+            emit(OrdersState.orders(listOrder));
+          }
+        },
+        onError: (e) {},
+        onComplete: () {});
   }
 }

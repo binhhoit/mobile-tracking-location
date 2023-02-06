@@ -9,7 +9,7 @@ abstract class FirestoreRepository {
       required String idOrder,
       required String addressName});
 
-  Future<QuerySnapshot<Map<String, dynamic>>> getListOrderByUser();
+  Stream<QuerySnapshot<Map<String, dynamic>>> getListOrderByUser();
 
   Stream<DocumentSnapshot<Map<String, dynamic>>> getOrderData({required String idOrder});
 }

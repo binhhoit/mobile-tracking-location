@@ -32,11 +32,11 @@ class _OrdersBody extends State<OrdersBody> with SingleTickerProviderStateMixin 
   @override
   void dispose() {
     _animationController.dispose();
+    _bloc?.ordersUseCase.dispose();
     super.dispose();
   }
 
   Future<void> _pullRefresh() async {
-    await _bloc?.getListOrder();
     await Future.delayed(const Duration(milliseconds: 1000));
     setState(() {
       order;
@@ -83,9 +83,11 @@ class _OrdersBody extends State<OrdersBody> with SingleTickerProviderStateMixin 
                         ));
                       }
                     },
-                    child: Column(
-                      children: [
-                        SizedBox(
+                    child: Card(
+                      elevation: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.all(5),
+                        child: SizedBox(
                           height: 60,
                           child: Align(
                               alignment: Alignment.center,
@@ -97,13 +99,15 @@ class _OrdersBody extends State<OrdersBody> with SingleTickerProviderStateMixin 
                                       SizedBox(
                                         width: 300,
                                         child: Text(
-                                          (order[index]['addressName']).toString(),
+                                          'Destination: ${order[index]['addressName']}',
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
+                                      Spacer(),
                                       Text(
-                                        (order[index]['created'] as Timestamp).toDate().toString(),
+                                        'Time Order: ${(order[index]['created'] as Timestamp).toDate()}',
+                                        style: const TextStyle(color: Colors.red),
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                       )
@@ -111,27 +115,62 @@ class _OrdersBody extends State<OrdersBody> with SingleTickerProviderStateMixin 
                                   ),
                                   const Spacer(),
                                   if (order[index]['status'] == 'In-progress')
-                                    FadeTransition(
-                                      opacity: _animationController,
-                                      child: const Icon(
-                                        Icons.local_shipping,
-                                        color: Colors.red,
-                                        size: 24.0,
-                                        semanticLabel: 'Text to announce in accessibility modes',
-                                      ),
+                                    Column(
+                                      children: [
+                                        FadeTransition(
+                                          opacity: _animationController,
+                                          child: const Icon(
+                                            Icons.local_shipping,
+                                            color: Colors.red,
+                                            size: 24.0,
+                                            semanticLabel:
+                                                'Text to announce in accessibility modes',
+                                          ),
+                                        ),
+                                        Text(
+                                          '${order[index]['status']}',
+                                          style: const TextStyle(color: Colors.green),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        )
+                                      ],
                                     )
                                   else if (order[index]['status'] == 'Done')
-                                    const Icon(
-                                      Icons.check,
-                                      color: Colors.blue,
-                                      size: 24.0,
-                                      semanticLabel: 'done',
+                                    Column(
+                                      children: [
+                                        const Icon(
+                                          Icons.check,
+                                          color: Colors.blue,
+                                          size: 24.0,
+                                          semanticLabel: 'done',
+                                        ),
+                                        Text(
+                                          '${order[index]['status']}',
+                                          style: const TextStyle(color: Colors.green),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        )
+                                      ],
+                                    )
+                                  else if (order[index]['status'] == 'Create')
+                                    const Text(
+                                      'Waiting Find\nDriver',
+                                      style: TextStyle(color: Colors.blue),
+                                      maxLines: 2,
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.ellipsis,
+                                    )
+                                  else
+                                    Text(
+                                      '${order[index]['status']}',
+                                      style: TextStyle(color: Colors.blue),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
                                     )
                                 ],
                               )),
                         ),
-                        const Divider()
-                      ],
+                      ),
                     ),
                   );
                 },
