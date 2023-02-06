@@ -85,9 +85,9 @@ class _OrdersBody extends State<OrdersBody> with SingleTickerProviderStateMixin 
                     child: Card(
                       elevation: 2,
                       child: Padding(
-                        padding: const EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(10),
                         child: SizedBox(
-                          height: 60,
+                          height: 90,
                           child: Align(
                               alignment: Alignment.center,
                               child: Row(
@@ -98,12 +98,21 @@ class _OrdersBody extends State<OrdersBody> with SingleTickerProviderStateMixin 
                                       SizedBox(
                                         width: 300,
                                         child: Text(
+                                          'Start: ${order[index]['start_location_name']}',
+                                          maxLines: 2,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                      const Spacer(),
+                                      SizedBox(
+                                        width: 300,
+                                        child: Text(
                                           'Destination: ${order[index]['addressName']}',
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                         ),
                                       ),
-                                      Spacer(),
+                                      const Spacer(),
                                       Text(
                                         'Time Order: ${(order[index]['created'] as Timestamp).toDate()}',
                                         style: const TextStyle(color: Colors.red),
@@ -136,6 +145,7 @@ class _OrdersBody extends State<OrdersBody> with SingleTickerProviderStateMixin 
                                     )
                                   else if (order[index]['status'] == 'Done')
                                     Column(
+                                      mainAxisAlignment: MainAxisAlignment.center,
                                       children: [
                                         const Icon(
                                           Icons.check,
@@ -152,19 +162,23 @@ class _OrdersBody extends State<OrdersBody> with SingleTickerProviderStateMixin 
                                       ],
                                     )
                                   else if (order[index]['status'] == 'Create')
-                                    const Text(
-                                      'Waiting Find\nDriver',
-                                      style: TextStyle(color: Colors.blue),
-                                      maxLines: 2,
-                                      textAlign: TextAlign.center,
-                                      overflow: TextOverflow.ellipsis,
+                                    const Center(
+                                      child: Text(
+                                        'Waiting Find\nDriver',
+                                        style: TextStyle(color: Colors.blue),
+                                        maxLines: 2,
+                                        textAlign: TextAlign.center,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     )
                                   else
-                                    Text(
-                                      '${order[index]['status']}',
-                                      style: TextStyle(color: Colors.blue),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
+                                    Center(
+                                      child: Text(
+                                        '${order[index]['status']}',
+                                        style: const TextStyle(color: Colors.blue),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     )
                                 ],
                               )),
