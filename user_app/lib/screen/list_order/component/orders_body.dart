@@ -91,37 +91,35 @@ class _OrdersBody extends State<OrdersBody> with SingleTickerProviderStateMixin 
                           child: Align(
                               alignment: Alignment.center,
                               child: Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      SizedBox(
-                                        width: 270,
-                                        child: Text(
+                                  SizedBox(
+                                    width: 260,
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        Text(
                                           'Start: ${order[index]['start_location_name']}',
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                         ),
-                                      ),
-                                      const Spacer(),
-                                      SizedBox(
-                                        width: 270,
-                                        child: Text(
+                                        const Spacer(),
+                                        Text(
                                           'Destination: ${order[index]['addressName']}',
                                           maxLines: 2,
                                           overflow: TextOverflow.ellipsis,
                                         ),
-                                      ),
-                                      const Spacer(),
-                                      Text(
-                                        'Time Order: ${(order[index]['created'] as Timestamp).toDate()}',
-                                        style: const TextStyle(color: Colors.red),
-                                        maxLines: 2,
-                                        overflow: TextOverflow.ellipsis,
-                                      )
-                                    ],
+                                        const Spacer(),
+                                        Text(
+                                          'Time Order: ${(order[index]['created'] as Timestamp).toDate()}',
+                                          style: const TextStyle(color: Colors.red),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                  const Spacer(),
                                   if (order[index]['status'] == 'In-progress')
                                     Column(
                                       children: [
@@ -162,13 +160,15 @@ class _OrdersBody extends State<OrdersBody> with SingleTickerProviderStateMixin 
                                       ],
                                     )
                                   else if (order[index]['status'] == 'Create')
-                                    const Center(
-                                      child: Text(
-                                        'Waiting Find\nDriver',
-                                        style: TextStyle(color: Colors.blue),
-                                        maxLines: 2,
-                                        textAlign: TextAlign.center,
-                                        overflow: TextOverflow.ellipsis,
+                                    const Flexible(
+                                      child: Center(
+                                        child: Text(
+                                          'Waiting Find\nDriver',
+                                          style: TextStyle(color: Colors.blue),
+                                          maxLines: 2,
+                                          textAlign: TextAlign.center,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
                                     )
                                   else

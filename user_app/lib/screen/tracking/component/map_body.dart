@@ -184,31 +184,27 @@ class _MapBody extends State<MapBody> {
                         const SizedBox(
                           width: 10,
                         ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            SizedBox(
-                              width: 260,
-                              child: Text(
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Text(
                                 state.data['start_location_name'].toString(),
                                 maxLines: 1,
-                                overflow: TextOverflow.fade,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                            SizedBox(
-                              width: 260,
-                              child: Text(
+                              Text(
                                 state.data['addressName'].toString(),
                                 maxLines: 1,
-                                overflow: TextOverflow.fade,
+                                overflow: TextOverflow.ellipsis,
                               ),
-                            ),
-                            Text((state.data['created'] as Timestamp).toDate().toString()),
-                            const Text("2km"),
-                            Text(state.data['status'].toString()),
-                            const Text('16.00 \$')
-                          ],
+                              Text((state.data['created'] as Timestamp).toDate().toString()),
+                              const Text("2km"),
+                              Text(state.data['status'].toString()),
+                              const Text('16.00 \$')
+                            ],
+                          ),
                         ),
                       ],
                     ),
