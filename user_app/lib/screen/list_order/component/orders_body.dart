@@ -96,7 +96,7 @@ class _OrdersBody extends State<OrdersBody> with SingleTickerProviderStateMixin 
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       SizedBox(
-                                        width: 300,
+                                        width: 270,
                                         child: Text(
                                           'Start: ${order[index]['start_location_name']}',
                                           maxLines: 2,
@@ -105,7 +105,7 @@ class _OrdersBody extends State<OrdersBody> with SingleTickerProviderStateMixin 
                                       ),
                                       const Spacer(),
                                       SizedBox(
-                                        width: 300,
+                                        width: 270,
                                         child: Text(
                                           'Destination: ${order[index]['addressName']}',
                                           maxLines: 2,

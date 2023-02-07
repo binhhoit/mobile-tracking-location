@@ -189,7 +189,7 @@ class _MapBody extends State<MapBody> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             SizedBox(
-                              width: 280,
+                              width: 260,
                               child: Text(
                                 state.data['start_location_name'].toString(),
                                 maxLines: 1,
@@ -197,7 +197,7 @@ class _MapBody extends State<MapBody> {
                               ),
                             ),
                             SizedBox(
-                              width: 280,
+                              width: 260,
                               child: Text(
                                 state.data['addressName'].toString(),
                                 maxLines: 1,
